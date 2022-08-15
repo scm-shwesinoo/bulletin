@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "employees",
+  "info": {
+    "singularName": "employee",
+    "pluralName": "employees",
+    "displayName": "Employee",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "phone": {
+      "type": "biginteger",
+      "required": true,
+      "unique": false
+    },
+    "address": {
+      "type": "text"
+    },
+    "dob": {
+      "type": "date"
+    },
+    "type": {
+      "type": "boolean",
+      "default": true,
+      "required": true
+    },
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "employee"
+    },
+    "profile": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

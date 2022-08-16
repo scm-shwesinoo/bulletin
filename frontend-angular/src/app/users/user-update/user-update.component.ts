@@ -24,6 +24,7 @@ export class UserUpdateComponent implements OnInit {
   existingUser: any;
   isEditUser: boolean = true;
   apiUrl: string = 'http://localhost:1337';
+  imageUrl: any;
   profileUrl: any;
 
   constructor(
@@ -36,7 +37,6 @@ export class UserUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.userId = this.activatedRoute.snapshot.params['id'];
-    // this.existingUser = this.activatedRoute.snapshot.data['user'];
     this.userForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]],
@@ -66,7 +66,13 @@ export class UserUpdateComponent implements OnInit {
     const data = this.shareDataSvc.getUserData();
     this.userDetail = data;
     if (this.userDetail) {
-      this.profileUrl = this.userDetail.profile
+      // if(this.userDetail.profile == undefined){
+        // this.imageUrl = this.userDetail.oldProfile
+        // this.profileUrl = `http://localhost:1337${this.userDetail.oldProfile}`;
+      //   this.profileUrl = this.apiUrl + this.userDetail.oldProfile;
+      // }else{
+        this.profileUrl = this.userDetail.profile
+      // }
       this.userForm.setValue({
         name: this.userDetail.name,
         email: this.userDetail.email,
@@ -78,14 +84,16 @@ export class UserUpdateComponent implements OnInit {
     } else {
       this.userSvc.getEachUser(this.userId).subscribe({
         next: (user: any) => {
-          console.log(user.profile);
-          this.profileUrl = user.profile;
+          // console.log(user.type);
+          this.imageUrl = user.profile;
+          // this.profileUrl = `http://localhost:1337${user.profile}`;
+          this.profileUrl = this.apiUrl + user.profile;
           this.userForm.patchValue({
             id: user.id,
             name: user.user.username,
             password: user.user.password,
             email: user.user.email,
-            type: user.type == "true" ? 1 : 0,
+            type: user.type == true ? 1 : 0,
             phone: user.phone,
             dob: user.dob,
             address: user.address
@@ -125,12 +133,13 @@ export class UserUpdateComponent implements OnInit {
   }
 
   onSelectFile(e: any) {
+    this.imageUrl = null;
     if (e.target.files) {
       var reader = new FileReader();
       reader.readAsDataURL(e.target.files[0]);
       this.file = e.target.files[0];
       reader.onload = (event: any) => {
-        this.profileUrl = event.target.result;
+        this.profileUrl = event.target.result; 
       }
     }
   }
@@ -144,7 +153,9 @@ export class UserUpdateComponent implements OnInit {
       phone: this.userForm.value.phone,
       dob: this.userForm.value.dob,
       address: this.userForm.value.address,
-      profile: this.profileUrl
+      profile: this.profileUrl,
+      oldProfile: this.imageUrl,
+      file: this.file
     });
     this.router.navigate(['/user-update-confirm']);
   }

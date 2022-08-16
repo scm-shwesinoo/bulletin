@@ -1,29 +1,35 @@
   <div class="container">
     <h2>User Profile</h2>
     <table class="user-table">
-      <tr>
+      <!-- <tr>
+        <td > Profile </td>
+        <td class="profile"> 
+          <img src="{{apiUrl+userData.profile}}" alt="User Profile">
+        </td>
+      </tr> -->
+      <tr>       
         <td class="label">Name</td>
-        <td>{{userData.user.username}}</td>
+        <td>{{userData?.user?.username}}</td>
       </tr>
       <tr>
         <td class="label">Email Address</td>
-        <td>{{userData.user.email}}</td>
+        <td>{{userData?.user?.email}}</td>
       </tr>
       <tr>
         <td class="label">Type</td>
-        <td>{{userData.type? 'User': 'Admin'}}</td>
+        <td>{{userData?.type? 'User': 'Admin'}}</td>
       </tr>
       <tr>
         <td class="label">Phone</td>
-        <td>{{userData.phone}}</td>
+        <td>{{userData?.phone}}</td>
       </tr>
       <tr>
         <td class="label">Date Of Birth</td>
-        <td>{{userData.dob | date: 'shortDate'}}</td>
+        <td>{{userData?.dob | date: 'shortDate'}}</td>
       </tr>
       <tr>
         <td class="label">Address</td>
-        <td>{{userData.address}}</td>
+        <td>{{userData?.address}}</td>
       </tr>
       <tr *ngIf="role === 'user'">
         <td class="change-btn" colspan="2">

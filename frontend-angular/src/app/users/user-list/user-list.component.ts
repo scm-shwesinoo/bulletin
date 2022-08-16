@@ -44,6 +44,8 @@ export class UserListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   ngOnInit(): void {
     this.getAllUserData();
+    console.log('===user data==='); 
+    
     // this.userInfo = JSON.parse(localStorage.getItem('userInfo') || '[]');
     this.loginUser = localStorage.getItem('username');
     // this.authSvc.role.next(this.loginUser);
@@ -56,6 +58,7 @@ export class UserListComponent implements OnInit {
     this.usersSvc.getAllUser().subscribe({
       next: users => {
         this.orgList = users;
+        console.log(this.orgList);
         this.dataSource = new MatTableDataSource(users);
         this.dataSource.paginator = this.paginator;
       },
@@ -64,34 +67,6 @@ export class UserListComponent implements OnInit {
         console.log(err);
       }
     })
-    // this.usersSvc.getUser().subscribe({
-    //   next: data => {
-    //     this.orgList = data.filter((result: any) => {
-    //       this.usersSvc.getUserDetail(result.created_user_id).subscribe({
-    //         next: user => {
-    //           result.user_name = user.name;
-    //         }
-    //       });
-    //       return result.is_removed === false;
-    //     })
-    //     this.userList = data.filter((result: any) => {
-    //       this.usersSvc.getUserDetail(result.created_user_id).subscribe({
-    //         next: user => {
-    //           result.user_name = user.name;
-    //         }
-    //       });
-    //       return result.is_removed === false;
-    //     })
-    //     this.orgList.sort((a: any, b: any) => a.order_key > b.order_key ? 1 : -1);
-    //     this.userList.sort((a: any, b: any) => a.order_key > b.order_key ? 1 : -1);
-    //     this.dataSource = new MatTableDataSource(this.userList);
-    //     this.dataSource.paginator = this.paginator;
-    //   },
-    //   error: err => {
-    //     console.log('=== handle error ===');
-    //     console.log(err);
-    //   }
-    // });
   }
 
   getEachUserData(userId: any) {
@@ -111,26 +86,6 @@ export class UserListComponent implements OnInit {
         });
       }
     })
-    // this.usersSvc.getUserDetail(userId).subscribe({
-    //   next: res => {
-    //     this.eachUser = res;
-    //     this.dialog.open(ListModalComponent, {
-    //       width: '600px',
-    //       data: {
-    //         name: res.name,
-    //         email: res.email,
-    //         phone: res.phone,
-    //         dob: res.dob,
-    //         address: res.address,
-    //         created_date: res.created_at
-    //       }
-    //     });
-    //   },
-    //   error: err => {
-    //     console.log('=== handle error ===');
-    //     console.log(err);
-    //   }
-    // });
   }
 
   updateUserData(userId: any) {

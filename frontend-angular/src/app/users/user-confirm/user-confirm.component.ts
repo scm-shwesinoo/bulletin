@@ -21,7 +21,8 @@ export class UserConfirmComponent implements OnInit {
   userListDetail: any;
   profileUrl: any;
   // public userInfo: any;
-  loginId: any;
+  createdUser: any;
+  role: any;
 
   constructor(
     private router: Router,
@@ -33,20 +34,27 @@ export class UserConfirmComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loginId = localStorage.getItem('id');
-    this.authSvc.id.next(this.loginId);
-    this.authSvc.id.subscribe((data: string | null) => {
-      this.loginId = data;
+    this.createdUser = localStorage.getItem('username');
+    this.authSvc.name.next(this.createdUser);
+    this.authSvc.name.subscribe((data: string | null) => {
+      this.createdUser = data;
     });
     this.userData = this.shareDataSvc.getUserData();
+    // console.log(this.userData.type);
+    if (this.userData.type == 0) {
+      this.role = 1;
+    } else {
+      this.role = 3;
+    }
     this.getUserList();
-    // this.userInfo = JSON.parse(localStorage.getItem('userInfo') || "[]");
   }
 
   getUserList() {
     this.userSvc.getUser().subscribe({
       next: result => {
         this.userList = result;
+        console.log('====user list====');;
+        console.log(this.userList);
       },
       error: err => {
         console.log('=== handle error ====')
@@ -56,37 +64,54 @@ export class UserConfirmComponent implements OnInit {
   }
 
   createUser() {
-    console.log('====user data====');;
-    console.log(this.userData.file);
+    console.log('====user list====');;
+    console.log(this.userList);
 
-    this.userSvc.uploadProfile(this.userData.file).subscribe({
-      next: (res: any) => {
-        this.profileUrl = res[0].url;
-        const data = {
-          "data": {
-            "name": this.userData.name,
-            "email": this.userData.email,
-            "password": this.userData.password,
-            "type": this.userData.type,
-            "phone": this.userData.phone,
-            "dob": this.userData.dob,
-            "address": this.userData.address,
-            "profile": this.profileUrl
-          }
-        };
-        this.userSvc.createUser(data).subscribe({
-          next: res => {
-            this.shareDataSvc.setUserData(null);
-            this.snackBar.open('User Created Successfully!', '', { duration: 3000 });
-            this.router.navigate(['/user-list']);
-          },
-          error: err => {
-            console.log('=== handle error ====')
-            console.log(err)
-          }
-        })
-      }
-    })
+    const duplicateUser = this.userList.filter((item: any) => item.email === this.userData.email);
+    console.log('===duplicate', duplicateUser);
+    if (duplicateUser.length > 0) {
+      this.dialog.open(PlainModalComponent, {
+        data: {
+          content: ` User with ${this.userData.email} already exists !`,
+          note: '',
+          applyText: 'Ok'
+        }
+      });
+    }else{
+      this.userSvc.uploadProfile(this.userData.file).subscribe({
+        next: (res: any) => {
+          this.profileUrl = res[0].url;
+          const data = {
+            "data": {
+              "name": this.userData.name,
+              "email": this.userData.email,
+              "password": this.userData.password,
+              "type": this.userData.type,
+              "phone": this.userData.phone,
+              "dob": this.userData.dob,
+              "address": this.userData.address,
+              "profile": this.profileUrl,
+              "createdUser": this.createdUser,
+              "role": this.role
+            }
+          };
+          this.userSvc.createUser(data).subscribe({
+            next: res => {
+              this.shareDataSvc.setUserData(null);
+              this.snackBar.open('User Created Successfully!', '', { duration: 3000 });
+              this.router.navigate(['/user-list']);
+            },
+            error: err => {
+              console.log('=== handle error ====')
+              console.log(err)
+            }
+          })
+        }
+      })
+  
+    }
+
+
 
     // const duplicateUser = this.userList.filter((item: any) => item.email === this.userData.email);
     // if (duplicateUser.length > 0) {

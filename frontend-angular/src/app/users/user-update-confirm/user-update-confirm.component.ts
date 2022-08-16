@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { PlainModalComponent } from 'src/app/components/plain-modal/plain-modal.component';
+import { AuthService } from 'src/app/services/auth.service';
 import { SharingDataService } from 'src/app/services/sharing-data.service';
 import { UsersService } from 'src/app/services/users.service';
 
@@ -13,26 +14,39 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class UserUpdateConfirmComponent implements OnInit {
 
+  apiUrl: string = 'http://localhost:1337';
   public userData: any;
   public userList: any = [];
   public userListDetail: any;
   public userId: any;
   public userInfo: any;
+  profileUrl: any;
+  loginId: any;
 
   constructor(
     private router: Router,
     private shareDataSvc: SharingDataService,
     private userSvc: UsersService,
+    private authSvc: AuthService,
     private snackBar: MatSnackBar,
     private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
     this.userData = this.shareDataSvc.getUserData();
+    this.loginId = localStorage.getItem('id');
+    this.authSvc.id.next(this.loginId);
+    this.authSvc.id.subscribe((data: string | null) => {
+      this.loginId = data;
+    });
+    console.log('==userdata==');
+    console.log(this.userData.profile);
+
+
     this.userId = this.userData.userId;
     // this.getUserList();
     // if (this.userId) {
-      this.getEachUserData();
+    this.getEachUserData();
     // }
     // this.userInfo = JSON.parse(localStorage.getItem('userInfo') || "[]");
   }
@@ -64,31 +78,68 @@ export class UserUpdateConfirmComponent implements OnInit {
   }
 
   createUser() {
-    const data = {
-      "data": {
-        "name": this.userData.name,
-        "email": this.userData.email,
-        "type": this.userData.type,
-        "phone": this.userData.phone,
-        "dob": this.userData.dob,
-        "address": this.userData.address,
-        "profile": '/uploads/poe_square_a8bc6e07fc.jpg'
-      }
-    };
+    console.log('===User Data');
     console.log(this.userData);
-    console.log(this.userListDetail.user.email);
-    
-    this.userSvc.updateUser(data, this.userId).subscribe({
-      next: res => {
-        this.snackBar.open('User Updated Successfully!', '', { duration: 3000 });
-        this.router.navigate(['/user-list']);
-      },
-      error: err => {
-        console.log('=== handle error ===');
-        console.log(err);
-      }
-    })
-  
+
+    if (this.userData.oldProfile) {
+      const data = {
+        "data": {
+          "name": this.userData.name,
+          "email": this.userData.email,
+          "type": this.userData.type,
+          "phone": this.userData.phone,
+          "dob": this.userData.dob,
+          "address": this.userData.address,
+          "profile": this.userData.oldProfile,
+          "updated_user_id": this.loginId
+            // "profile": this.userData.profile
+        }
+      };
+      this.userSvc.updateUser(data, this.userId).subscribe({
+        next: res => {
+          this.shareDataSvc.setUserData(null);
+          this.snackBar.open('User Updated Successfully!', '', { duration: 3000 });
+          this.router.navigate(['/user-list']);
+        },
+        error: err => {
+          console.log('=== handle error ===');
+          console.log(err);
+        }
+      })
+    }else{
+      this.userSvc.uploadProfile(this.userData.file).subscribe({
+        next: (res: any) => {
+          this.profileUrl = res[0].url;
+          const data = {
+            "data": {
+              "name": this.userData.name,
+              "email": this.userData.email,
+              "type": this.userData.type,
+              "phone": this.userData.phone,
+              "dob": this.userData.dob,
+              "address": this.userData.address,
+              "profile": this.profileUrl,
+              "updated_user_id": this.loginId
+            }
+          };
+          this.userSvc.updateUser(data, this.userId).subscribe({
+            next: res => {
+              this.shareDataSvc.setUserData(null);
+              this.snackBar.open('User Updated Successfully!', '', { duration: 3000 });
+              this.router.navigate(['/user-list']);
+            },
+            error: err => {
+              console.log('=== handle error ====')
+              console.log(err)
+            }
+          })
+        }
+      })
+    }
+
+
+
+
 
 
     // const duplicate = this.userList.filter((item: any) => item.email === this.userData.email && item.id != this.userId);

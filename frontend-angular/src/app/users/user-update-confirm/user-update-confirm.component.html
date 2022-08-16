@@ -25,6 +25,14 @@
       <td class="sub-ttl">Address</td>
       <td>{{userData.address}}</td>
     </tr>
+    <tr>
+      <td class="sub-ttl">Profile</td>
+      <td> 
+        <!-- <img *ngIf="!userData.profile" src={{apiUrl+userData.oldProfile}} width="150" height="150" style="border-radius:15px;"> -->
+        <!-- <img *ngIf="userData.profile" src={{userData.profile}} alt="Profile Image" width="100" height="100" style="border: radius 15px;"> -->
+        <img src={{userData.profile}} alt="Profile Image" width="100" height="100" style="border: radius 15px;">
+      </td>
+    </tr>
   </table>
   <div class="button-group">
     <button mat-flat-button (click)="createUser()" color="primary">Update</button>

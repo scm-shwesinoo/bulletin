@@ -66,8 +66,9 @@
       <!-- Created User Column -->
       <ng-container matColumnDef="created_user_id">
         <th mat-header-cell *matHeaderCellDef> Created User </th>
-        <td mat-cell *matCellDef="let user"> {{user?.createdBy?.firstname ? user?.createdBy?.firstname : 'test'}} </td>
-        <!-- <td mat-cell *matCellDef="let user"> Created User </td> -->
+        <!-- <td mat-cell *matCellDef="let user"> {{user?.createdBy?.firstname ? user?.createdBy?.firstname : 'test'}} </td> -->
+        <td mat-cell *matCellDef="let user"> {{user.createdUser || 'test'}} </td>
+        <!-- <td mat-cell *matCellDef="let user"> {{user?.createdUser ? user?createdUser : 'test'}} </td> -->
       </ng-container>
 
       <!-- Phone Column -->

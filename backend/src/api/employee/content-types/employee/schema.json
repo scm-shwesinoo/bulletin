@@ -12,11 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "phone": {
-      "type": "biginteger",
-      "required": true,
-      "unique": false
-    },
     "address": {
       "type": "text"
     },
@@ -35,6 +30,16 @@
       "inversedBy": "employee"
     },
     "profile": {
+      "type": "string",
+      "required": true
+    },
+    "updated_user_id": {
+      "type": "integer"
+    },
+    "createdUser": {
+      "type": "string"
+    },
+    "phone": {
       "type": "string",
       "required": true
     }

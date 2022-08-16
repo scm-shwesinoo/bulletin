@@ -70,10 +70,12 @@ export class UserLoginComponent implements OnInit {
 
   login(data: any) {
     console.log(data);
-    this.authSvc.login(data).subscribe({
+    const loginData = {
+      identifier: this.loginForm.value.identifier,
+      password: this.loginForm.value.password
+    }
+    this.authSvc.login(loginData).subscribe({
       next: async res => {
-
-        
         const token = res.jwt;
         localStorage.setItem("token", token);
         await this.getMe();
@@ -94,7 +96,7 @@ export class UserLoginComponent implements OnInit {
     (await this.authSvc.getMe()).subscribe({
       next: res => {
         console.log(res);
-        localStorage.setItem('user',JSON.stringify(res));
+        localStorage.setItem('user', JSON.stringify(res));
         localStorage.setItem('username', res.username);
         localStorage.setItem('role', res.role.type);
         localStorage.setItem('id', res.id);

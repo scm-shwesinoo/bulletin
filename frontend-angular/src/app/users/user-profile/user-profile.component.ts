@@ -11,13 +11,15 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class UserProfileComponent implements OnInit {
   id: any;
-  userData: any;
+  // user: any;
+  public userData: any;
   role: any;
+  apiUrl: string = 'http://localhost:1337';
 
   constructor(
     private userSvc: UsersService,
     private authSvc: AuthService
-    ) { }
+  ) { }
 
   ngOnInit(): void {
     this.id = localStorage.getItem('id');
@@ -41,13 +43,10 @@ export class UserProfileComponent implements OnInit {
     // }
   }
 
-  getEachUserData(){
+  getEachUserData() {
     this.userSvc.getEachUser(this.id).subscribe({
-      next: (res) => {
-        console.log(res.user);
-        
-        this.userData = res;  
-        console.log(this.userData);
+      next: res => {
+        this.userData = res;
       }
     });
   }

@@ -10,14 +10,22 @@ module.exports = createCoreService('api::employee.employee', ({ strapi }) => ({
     async find(ctx) {
         // const entries = await strapi.entityService.findMany("api::employee.employee");
         // const entries = await strapi.entityService.findMany("plugin::users-permissions.user", {
-        //     // fields: ['username', 'email']
-        //     populate: '*'
+        //     populate: '*',
+        //     sort: ['id:desc']
         // });
         const entries = await strapi.entityService.findMany("api::employee.employee", {
-            // fields: ['username', 'email']
             populate: '*',
-            sort: ['id:desc']
-        });
+            // populate: {
+            //     user: {
+            //         filters: {
+            //             id: {
+            //                 $eq: '16',
+            //             },
+            //         },
+            //     },
+            // },  
+                sort: ['id:desc']
+            });
         return entries;
     },
 
@@ -38,7 +46,8 @@ module.exports = createCoreService('api::employee.employee', ({ strapi }) => ({
                 type: ctx.request.body.data.type,
                 phone: ctx.request.body.data.phone,
                 address: ctx.request.body.data.address,
-                dob: ctx.request.body.data.dob
+                dob: ctx.request.body.data.dob,
+                createdUser: ctx.request.body.data.createdUser
             }
         })
         const id = entry.id;
@@ -49,7 +58,8 @@ module.exports = createCoreService('api::employee.employee', ({ strapi }) => ({
                     username: ctx.request.body.data.name,
                     email: ctx.request.body.data.email,
                     password: ctx.request.body.data.password,
-                    employee: [id]
+                    employee: [id],
+                    role: [ctx.request.body.data.role]
                 }
             })
         } catch (error) {
@@ -75,7 +85,8 @@ module.exports = createCoreService('api::employee.employee', ({ strapi }) => ({
                     type: ctx.request.body.data.type,
                     phone: ctx.request.body.data.phone,
                     address: ctx.request.body.data.address,
-                    dob: ctx.request.body.data.dob
+                    dob: ctx.request.body.data.dob,
+                    updated_user_id: ctx.request.body.data.updated_user_id
                 }
             });
         } catch (error) {

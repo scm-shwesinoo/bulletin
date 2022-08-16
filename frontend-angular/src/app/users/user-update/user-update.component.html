@@ -46,8 +46,9 @@
       <h4>Profile</h4>
     <button type="button" mat-stroked-button (click)="fileInput.click()">Upload Image</button>
     <input hidden #fileInput type="file" id="file" (change)="onSelectFile($event)"><br><br>
-    <img src="{{apiUrl+profileUrl}}" alt="User Profile">
-    <!-- <img class="image-upload" src={{profileUrl}} alt="Profile Image" width="100" height="100" style="border: radius 15px;"> -->
+    <!-- <img *ngIf="!profileUrl" src="{{apiUrl+imageUrl}}" alt="User Profile" width="100" height="100" style="border: radius 15px;"> -->
+    <!-- <img *ngIf="profileUrl" src={{profileUrl}} alt="Profile Image" width="100" height="100" style="border: radius 15px;"> -->
+    <img class="image-upload" src={{profileUrl}} alt="Profile Image" width="100" height="100" style="border: radius 15px;">
     </div>
 
     <div class="changePwd" *ngIf="userId">

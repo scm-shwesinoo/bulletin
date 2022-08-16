@@ -92,8 +92,12 @@ export class UserCreateComponent implements OnInit {
       var reader = new FileReader();
       reader.readAsDataURL(e.target.files[0]);
       this.file = e.target.files[0];
+      console.log('file===');
+      console.log(this.file);
       reader.onload = (event: any) => {
         this.profileUrl = event.target.result;
+        console.log('profileUrl===');
+        console.log(this.profileUrl);
       }
     }
   }

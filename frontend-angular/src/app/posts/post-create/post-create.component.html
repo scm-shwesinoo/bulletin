@@ -1,0 +1,34 @@
+<div class="post-container">
+  <h2 *ngIf="!postId">Create Post</h2>
+  <h2 *ngIf="postId">Update Post</h2>
+  <form [formGroup]="postForm" (ngSubmit)="confirmPost()" class="post-form">
+    <!-- Title -->
+    <mat-form-field appearance="outline" class="form-group">
+      <mat-label>Title</mat-label>
+      <input matInput type="text" formControlName="title" placeholder="Title">
+      <mat-error *ngIf="myError('title', 'required')">Title is required</mat-error>
+      <mat-error *ngIf="myError('title', 'maxlength')">Title must be less than 255 characters</mat-error>
+    </mat-form-field>
+    <!-- /Title -->
+
+    <!-- Description -->
+    <mat-form-field appearance="outline" class="form-group">
+      <mat-label>Description</mat-label>
+      <textarea matInput rows="5" class="description" formControlName="description" placeholder="Description"></textarea>
+      <mat-error *ngIf="myError('description', 'required')">Description is required</mat-error>
+    </mat-form-field>
+    <!-- /Description -->
+
+    <!-- Status -->
+    <div class="status" *ngIf="postId">
+      <mat-label>Status</mat-label>
+      <mat-slide-toggle (change)="changeToggle($event)" [checked]="isChecked"></mat-slide-toggle>
+    </div>
+    <!-- /Status -->
+
+    <div class="button-group">
+      <button mat-flat-button type="submit" [disabled]="!postForm.valid" color="primary" class="btn-submit">Confirm</button>
+      <button mat-stroked-button type="reset" (click)="clearData()" color="warn">Clear</button>
+    </div>
+  </form>
+</div>

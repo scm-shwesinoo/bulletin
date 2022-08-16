@@ -1,0 +1,33 @@
+.login-container {
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  width: 400px;
+  margin: 30px auto;
+  padding: 15px 25px;
+
+  h2 {
+    font-weight: bold;
+    text-align: center;
+    font-size: 18px;
+    text-transform: uppercase;
+    color: #243A73;
+    margin-top: 15px;
+  }
+
+  .login-form {
+    mat-form-field {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .login-btn {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+
+      button {
+        padding: 0 50px;
+      }
+    }
+  }
+}

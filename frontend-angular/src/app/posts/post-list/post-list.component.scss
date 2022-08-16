@@ -1,0 +1,35 @@
+.container {
+  width: 82%;
+  margin: 2% auto;
+
+  .filter {
+    display: flex;
+
+    .opr-btn {
+      width: 80%;
+      margin-top: 0.5%;
+      margin-left: 1.4%;
+
+      button {
+        margin: 0 1%;
+        padding-top: 0.7%;
+        padding-right: 2.5%;
+        padding-bottom: 0.7%;
+
+        mat-icon {
+          margin-right: 10%;
+        }
+      }
+    }
+  }
+
+  .mat-elevation-z8 {
+    width: 100%;
+    margin: 1% auto;
+    padding: 2%;
+
+    table {
+      width: 100%;
+    }
+  }
+}

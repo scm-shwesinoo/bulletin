@@ -1,0 +1,48 @@
+<h2 mat-dialog-title>Post Information</h2>
+<div mat-dialog-content class="mat-dialog">
+  <mat-list role="list">
+
+    <!-- Title -->
+    <mat-list-item role="listitem">
+      <span>Title :</span>
+      <div class="dialog-data">
+        {{data.title}}
+      </div>
+    </mat-list-item>
+
+    <!-- Description -->
+    <mat-list-item role="listitem">
+      <span>Description :</span>
+      <div class="dialog-data">
+        {{data.description}}
+      </div>
+    </mat-list-item>
+
+    <!-- Created User Id -->
+    <mat-list-item role="listitem">
+      <span>Created User Id :</span>
+      <div class="dialog-data">
+        {{data.created_user_id}}
+      </div>
+    </mat-list-item>
+
+    <!-- Updated User Id -->
+    <!-- <mat-list-item role="listitem">
+      <span>Updated User Id :</span>
+      <div class="dialog-data">
+        {{data.updated_user_id}}
+      </div>
+    </mat-list-item> -->
+
+    <!-- Created Date -->
+    <mat-list-item role="listitem">
+      <span>Created At :</span>
+      <div class="dialog-data">
+        {{data.created_at | date: 'shortDate'}}
+      </div>
+    </mat-list-item>
+  </mat-list>
+</div>
+<div mat-dialog-actions class="close-btn">
+  <button mat-flat-button (click)="cancel()" color="warn">Close</button>
+</div>

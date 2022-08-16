@@ -1,0 +1,33 @@
+<div class="user-confirm">
+  <h2 class="title">Update User Confirmation</h2>
+  <table class="confirm-table">
+    <tr>
+      <td class="sub-ttl">Name</td>
+      <td>{{userData.name}}</td>
+    </tr>
+    <tr>
+      <td class="sub-ttl">Email Address</td>
+      <td>{{userData.email}}</td>
+    </tr>
+    <tr>
+      <td class="sub-ttl">Type</td>
+      <td>{{ userData.type === 1 ? 'User' : 'Admin' }}</td>
+    </tr>
+    <tr>
+      <td class="sub-ttl">Phone</td>
+      <td>{{userData.phone}}</td>
+    </tr>
+    <tr>
+      <td class="sub-ttl">Date Of Birth</td>
+      <td>{{userData.dob | date: 'dd/MM/yyyy'}}</td>
+    </tr>
+    <tr>
+      <td class="sub-ttl">Address</td>
+      <td>{{userData.address}}</td>
+    </tr>
+  </table>
+  <div class="button-group">
+    <button mat-flat-button (click)="createUser()" color="primary">Update</button>
+    <button mat-stroked-button (click)="goBackUserCreate()" color="warn">Cancel</button>
+  </div>
+</div>

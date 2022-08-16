@@ -1,0 +1,7 @@
+<div mat-dialog-content>
+  <div class="content">{{data.content}}</div>
+  <div>{{data.note}}</div>
+</div>
+<div mat-dialog-actions class="btn-cancel">
+  <button mat-raised-button color="warn" (click)="cancel()">{{data.applyText || 'OK'}}</button>
+</div>

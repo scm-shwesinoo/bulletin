@@ -1,5 +1,8 @@
 <div class="user-confirm">
   <h2 class="title">Create User Confirmation</h2>
+  <div class="profile-blk">
+     <img  width="100" height="110" style="border: radius 10px;" src={{userData?.profile}}>
+  </div>
   <table class="confirm-table">
     <tr>
       <td class="sub-ttl">Name</td>
@@ -28,10 +31,6 @@
     <tr>
       <td class="sub-ttl">Address</td>
       <td>{{userData.address}}</td>
-    </tr>
-    <tr>
-      <td class="sub-ttl">Profile</td>
-      <td> <img width="150" height="150" style="border-radius:15px;" src={{userData?.profile}}></td>
     </tr>
   </table>
   <div class="button-group">

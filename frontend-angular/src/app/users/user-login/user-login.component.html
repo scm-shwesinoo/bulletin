@@ -1,19 +1,19 @@
 <div class="login-container">
   <h2> Login Form </h2>
   <div class="form-container">
-    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)">
-      <!-- <mat-form-field appearance="outline">
+    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
         <input matInput type="email" formControlName="email">
         <mat-error *ngIf="myLoginForm['email'].hasError('required')">Email is required</mat-error>
         <mat-error *ngIf="myLoginForm['email'].hasError('pattern')">Please enter a valid email</mat-error>
-      </mat-form-field> -->
-      <mat-form-field appearance="outline">
+      </mat-form-field>
+      <!-- <mat-form-field appearance="outline">
         <mat-label>Email</mat-label>
         <input matInput type="email" formControlName="identifier">
         <mat-error *ngIf="myLoginForm['identifier'].hasError('required')">Email is required</mat-error>
         <mat-error *ngIf="myLoginForm['identifier'].hasError('pattern')">Please enter a valid email</mat-error>
-      </mat-form-field>
+      </mat-form-field> -->
       <mat-form-field appearance="outline">
         <mat-label>Password</mat-label>
         <input matInput type="password" formControlName="password">

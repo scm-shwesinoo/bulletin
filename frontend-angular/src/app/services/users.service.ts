@@ -83,8 +83,16 @@ export class UsersService {
     return this.http.delete(url, { 'headers': headers });
   }
 
+  changePassword(data: any): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders()
+      .set('content-type', 'application/json')
+      .set('Authorization', `Bearer ${token}`);
 
-  // no need
+    const url = this.apiUrl + '/password';
+    return this.http.post(url, data, { 'headers': headers });
+  }
+
   getUser(): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders()
@@ -95,11 +103,21 @@ export class UsersService {
     return this.http.get(url, { 'headers': headers });
   }
   // no need
+  // getUser(): Observable<any> {
+  //   const token = localStorage.getItem('token');
+  //   const headers = new HttpHeaders()
+  //     .set('content-type', 'application/json')
+  //     .set('Authorization', `Bearer ${token}`);
 
-  getUserDetail(paramId: any): Observable<any> {
-    const url = this.apiUrl + '/users/' + paramId;
-    return this.http.get(url);
-  }
+  //   const url = this.apiUrl + '/users';
+  //   return this.http.get(url, { 'headers': headers });
+  // }
+  // no need
+
+  // getUserDetail(paramId: any): Observable<any> {
+  //   const url = this.apiUrl + '/users/' + paramId;
+  //   return this.http.get(url);
+  // }
 
   // getEachUser(paramId: any): Observable<any> {
   //   const token = localStorage.getItem('token');

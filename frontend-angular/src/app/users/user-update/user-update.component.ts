@@ -26,6 +26,7 @@ export class UserUpdateComponent implements OnInit {
   apiUrl: string = 'http://localhost:1337';
   imageUrl: any;
   profileUrl: any;
+  email: any;
 
   constructor(
     private fb: FormBuilder,
@@ -67,11 +68,12 @@ export class UserUpdateComponent implements OnInit {
     this.userDetail = data;
     if (this.userDetail) {
       // if(this.userDetail.profile == undefined){
-        // this.imageUrl = this.userDetail.oldProfile
+        this.imageUrl = this.userDetail.oldProfile
         // this.profileUrl = `http://localhost:1337${this.userDetail.oldProfile}`;
       //   this.profileUrl = this.apiUrl + this.userDetail.oldProfile;
       // }else{
         this.profileUrl = this.userDetail.profile
+        this.file = this.userDetail.file
       // }
       this.userForm.setValue({
         name: this.userDetail.name,
@@ -84,9 +86,9 @@ export class UserUpdateComponent implements OnInit {
     } else {
       this.userSvc.getEachUser(this.userId).subscribe({
         next: (user: any) => {
-          // console.log(user.type);
-          this.imageUrl = user.profile;
           // this.profileUrl = `http://localhost:1337${user.profile}`;
+          this.email = user.user.email;
+          this.imageUrl = user.profile;
           this.profileUrl = this.apiUrl + user.profile;
           this.userForm.patchValue({
             id: user.id,
@@ -139,6 +141,7 @@ export class UserUpdateComponent implements OnInit {
       reader.readAsDataURL(e.target.files[0]);
       this.file = e.target.files[0];
       reader.onload = (event: any) => {
+        this.imageUrl = null;
         this.profileUrl = event.target.result; 
       }
     }
@@ -165,6 +168,7 @@ export class UserUpdateComponent implements OnInit {
   }
 
   changePassword() {
-    this.shareDataSvc.setUserId(this.activatedRoute.snapshot.params['id']);
+    // this.shareDataSvc.setUserId(this.activatedRoute.snapshot.params['id']);
+    this.shareDataSvc.setUserEmail(this.email);
   }
 }

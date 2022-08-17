@@ -3,6 +3,7 @@ import { AuthService } from 'src/app/services/auth.service';
 
 // service
 import { UsersService } from 'src/app/services/users.service';
+import { SharingDataService } from 'src/app/services/sharing-data.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -12,13 +13,16 @@ import { UsersService } from 'src/app/services/users.service';
 export class UserProfileComponent implements OnInit {
   id: any;
   // user: any;
-  public userData: any;
+  userData: any = {};
   role: any;
+  userList: any;
+  email: any;
   apiUrl: string = 'http://localhost:1337';
 
   constructor(
     private userSvc: UsersService,
-    private authSvc: AuthService
+    private authSvc: AuthService,
+    private shareDataSvc: SharingDataService
   ) { }
 
   ngOnInit(): void {
@@ -32,24 +36,30 @@ export class UserProfileComponent implements OnInit {
     this.authSvc.role.subscribe((data: string | null) => {
       this.role = data;
     });
-    this.getEachUserData();
-    // this.userInfo = JSON.parse(localStorage.getItem('userInfo') || '[]');
-    // if (this.userInfo.type == 0) {
-    //   this.type = 'Admin';
-    //   this.admin = false;
-    // } else {
-    //   this.type = 'User';
-    //   this.admin = true;
-    // }
+    this.getUserList();
   }
 
-  getEachUserData() {
-    this.userSvc.getEachUser(this.id).subscribe({
-      next: res => {
-        this.userData = res;
+  getUserList() {
+    this.userSvc.getAllUser().subscribe({
+      next: result => {
+        this.userList = result;
+        console.log('====user list====');;
+        console.log(this.userList);
+        const user = this.userList.filter((item: any) => this.id == item.user.id);
+        this.userData = user;
+        this.email = this.userData[0]?.user?.email;
+        console.log(this.email);
+        
+      },
+      error: err => {
+        console.log('=== handle error ====')
+        console.log(err)
       }
     });
   }
 
+  changePassword() {
+    this.shareDataSvc.setUserEmail(this.email);
+  }
 
 }

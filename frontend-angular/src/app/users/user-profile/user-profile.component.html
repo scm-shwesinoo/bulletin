@@ -9,31 +9,31 @@
       </tr> -->
       <tr>       
         <td class="label">Name</td>
-        <td>{{userData?.user?.username}}</td>
+        <td>{{userData[0]?.user?.username}}</td>
       </tr>
       <tr>
         <td class="label">Email Address</td>
-        <td>{{userData?.user?.email}}</td>
+        <td>{{userData[0]?.user?.email}}</td>
       </tr>
       <tr>
         <td class="label">Type</td>
-        <td>{{userData?.type? 'User': 'Admin'}}</td>
+        <td>{{userData[0]?.type? 'User': 'Admin'}}</td>
       </tr>
       <tr>
         <td class="label">Phone</td>
-        <td>{{userData?.phone}}</td>
+        <td>{{userData[0]?.phone}}</td>
       </tr>
       <tr>
         <td class="label">Date Of Birth</td>
-        <td>{{userData?.dob | date: 'shortDate'}}</td>
+        <td>{{userData[0]?.dob | date: 'shortDate'}}</td>
       </tr>
       <tr>
         <td class="label">Address</td>
-        <td>{{userData?.address}}</td>
+        <td>{{userData[0]?.address}}</td>
       </tr>
       <tr *ngIf="role === 'user'">
         <td class="change-btn" colspan="2">
-          <a [routerLink]="['/password-change']">Change Password</a>
+          <a [routerLink]="['/password-change']" (click)="changePassword()">Change Password</a>
         </td>
       </tr>
     </table>

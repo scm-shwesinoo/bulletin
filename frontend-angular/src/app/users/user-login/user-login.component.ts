@@ -30,8 +30,15 @@ export class UserLoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // this.loginForm = this.fb.group({
+    //   identifier: new FormControl('', Validators.compose([
+    //     Validators.required,
+    //     Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+    //   ])),
+    //   password: new FormControl('', [Validators.required])
+    // });
     this.loginForm = this.fb.group({
-      identifier: new FormControl('', Validators.compose([
+      email: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
       ])),
@@ -68,13 +75,14 @@ export class UserLoginComponent implements OnInit {
   //   });
   // }
 
-  login(data: any) {
-    console.log(data);
-    const loginData = {
-      identifier: this.loginForm.value.identifier,
-      password: this.loginForm.value.password
+  onSubmit() {
+    const data = {
+      "identifier": this.loginForm.value.email,
+      "password": this.loginForm.value.password
     }
-    this.authSvc.login(loginData).subscribe({
+    console.log('login data', data);
+    
+    this.authSvc.login(data).subscribe({
       next: async res => {
         const token = res.jwt;
         localStorage.setItem("token", token);

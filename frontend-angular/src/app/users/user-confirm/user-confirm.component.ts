@@ -40,7 +40,8 @@ export class UserConfirmComponent implements OnInit {
       this.createdUser = data;
     });
     this.userData = this.shareDataSvc.getUserData();
-    // console.log(this.userData.type);
+    console.log('file',this.userData.file);
+    
     if (this.userData.type == 0) {
       this.role = 1;
     } else {
@@ -50,7 +51,7 @@ export class UserConfirmComponent implements OnInit {
   }
 
   getUserList() {
-    this.userSvc.getUser().subscribe({
+    this.userSvc.getAllUser().subscribe({
       next: result => {
         this.userList = result;
         console.log('====user list====');;
@@ -64,15 +65,11 @@ export class UserConfirmComponent implements OnInit {
   }
 
   createUser() {
-    console.log('====user list====');;
-    console.log(this.userList);
-
-    const duplicateUser = this.userList.filter((item: any) => item.email === this.userData.email);
-    console.log('===duplicate', duplicateUser);
+    const duplicateUser = this.userList.filter((item: any) => item.user.email === this.userData.email);
     if (duplicateUser.length > 0) {
       this.dialog.open(PlainModalComponent, {
         data: {
-          content: ` User with ${this.userData.email} already exists !`,
+          content: `User with ${this.userData.email} already exists !`,
           note: '',
           applyText: 'Ok'
         }
@@ -110,8 +107,6 @@ export class UserConfirmComponent implements OnInit {
       })
   
     }
-
-
 
     // const duplicateUser = this.userList.filter((item: any) => item.email === this.userData.email);
     // if (duplicateUser.length > 0) {

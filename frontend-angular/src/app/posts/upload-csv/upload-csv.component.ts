@@ -75,10 +75,6 @@ export class UploadCsvComponent implements OnInit {
         let csvRecordsArray = (<string>csvData).split(/\r\n|\n/);
         let headersRow = this.getHeaderArray(csvRecordsArray);
         this.records = this.getDataRecordsArrayFromCSVFile(csvRecordsArray, headersRow.length);
-        console.log('Record Data');
-        console.log(this.records[0], '====0======');
-        console.log(this.records[1], '====1======');
-        console.log(this.records[2], '====2======');
 
         this.records.map((result: any) => {
           // this.title.push(result.title);

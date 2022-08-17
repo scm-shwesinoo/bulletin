@@ -40,5 +40,15 @@ module.exports = {
                 auth: false,
             }
         },
+        {
+            method: "POST",
+            path: "/password",
+            handler: "employee.password",
+        },
+        // {
+        //     method: "POST",
+        //     path: "/password",
+        //     handler: "employee.index",
+        // },
     ]
 }

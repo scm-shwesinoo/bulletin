@@ -10,6 +10,6 @@ export class UserResolver implements Resolve<boolean> {
   constructor(private userSvc: UsersService) { }
   resolve(route: ActivatedRouteSnapshot): Observable<boolean> {
     const paramId = route.params['id'];
-    return this.userSvc.getUserDetail(paramId);
+    return this.userSvc.getEachUser(paramId);
   }
 }

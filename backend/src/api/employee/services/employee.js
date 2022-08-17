@@ -5,6 +5,7 @@
  */
 
 const { createCoreService } = require('@strapi/strapi').factories;
+const bcrypt = require("bcryptjs");
 
 module.exports = createCoreService('api::employee.employee', ({ strapi }) => ({
     async find(ctx) {
@@ -24,8 +25,8 @@ module.exports = createCoreService('api::employee.employee', ({ strapi }) => ({
             //         },
             //     },
             // },  
-                sort: ['id:desc']
-            });
+            sort: ['id:desc']
+        });
         return entries;
     },
 
@@ -128,4 +129,38 @@ module.exports = createCoreService('api::employee.employee', ({ strapi }) => ({
 
         return data;
     },
+
+    async password(ctx) {
+        const params = ctx.request.body;
+        if (!params.identifier) {
+            console.log("email is required");
+        }
+
+        const user = await strapi.db.query('plugin::users-permissions.user').findOne({
+            select: ['email', 'password', 'id'],
+            where: {
+                email: params.identifier
+            }
+        });
+
+        const validPassword = await strapi
+            .service("plugin::users-permissions.user")
+            .validatePassword(params.password, user.password);
+
+        if (!validPassword) {
+            return { data: 'invalid' };
+        } else {
+            // Generate new hash password
+            const newPassword = bcrypt.hashSync(params.newPassword, 10);
+
+            // Update user password
+            await strapi.db.query('plugin::users-permissions.user').update({
+                where: { id: user.id },
+                data: {
+                    password: newPassword,
+                },
+            });
+            return { data: 'success' };
+        }
+    }
 }));

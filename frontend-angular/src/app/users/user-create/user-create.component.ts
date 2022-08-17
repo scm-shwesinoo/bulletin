@@ -62,6 +62,7 @@ export class UserCreateComponent implements OnInit {
     this.userDetail = data;
     if (this.userDetail) {
       this.profileUrl = this.userDetail.profile
+      this.file = this.userDetail.file
       this.userForm.setValue({
         name: this.userDetail.name ?? null,
         email: this.userDetail.email ?? null,

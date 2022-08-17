@@ -41,6 +41,8 @@ export class UserUpdateConfirmComponent implements OnInit {
     });
     console.log('==userdata==');
     console.log(this.userData.profile);
+    console.log('===old profile');
+    console.log(this.userData);
 
 
     this.userId = this.userData.userId;
@@ -78,10 +80,7 @@ export class UserUpdateConfirmComponent implements OnInit {
   }
 
   createUser() {
-    console.log('===User Data');
-    console.log(this.userData);
-
-    if (this.userData.oldProfile) {
+    if (this.userData.oldProfile !== null) {
       const data = {
         "data": {
           "name": this.userData.name,

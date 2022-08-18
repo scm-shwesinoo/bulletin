@@ -33,7 +33,7 @@
         <th mat-header-cell *matHeaderCellDef> Post Title </th>
         <td mat-cell *matCellDef="let row">
           <button mat-stroked-button (click)="titleDetail(row.id)" color="primary">
-          {{row.attributes.title}}
+          {{row?.attributes?.title || '-'}}
           </button>
         </td>
       </ng-container>
@@ -41,20 +41,20 @@
       <!-- Description -->
       <ng-container matColumnDef="description">
         <th mat-header-cell *matHeaderCellDef> Post Description </th>
-        <td mat-cell *matCellDef="let row"> {{row.attributes.description}} </td>
+        <td mat-cell *matCellDef="let row"> {{row?.attributes?.description || '-'}} </td>
       </ng-container>
 
       <!-- Created User Id -->
       <ng-container matColumnDef="username">
         <th mat-header-cell *matHeaderCellDef> Posted User </th>
         <!-- <td mat-cell *matCellDef="let row"> hello </td> -->
-        <td mat-cell *matCellDef="let row"> {{row.attributes.user.data.attributes.username}} </td>
+        <td mat-cell *matCellDef="let row"> {{row?.attributes?.user?.data?.attributes?.username || '-'}} </td>
       </ng-container>
 
       <!-- Created Date -->
       <ng-container matColumnDef="created_at" class="created_at">
         <th mat-header-cell *matHeaderCellDef> Posted Date </th>
-        <td mat-cell *matCellDef="let row"> {{row.attributes.createdAt | date: 'shortDate'}} </td>
+        <td mat-cell *matCellDef="let row"> {{row?.attributes?.createdAt | date: 'shortDate'}} </td>
       </ng-container>
 
       <!-- Action -->

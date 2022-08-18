@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 // service
+import { AuthService } from 'src/app/services/auth.service';
 import { UsersService } from 'src/app/services/users.service';
 import { SharingDataService } from 'src/app/services/sharing-data.service';
 
@@ -18,8 +19,10 @@ export class UserProfileComponent implements OnInit {
   userList: any;
   email: any;
   apiUrl: string = 'http://localhost:1337';
+  userId: any;
 
   constructor(
+    private router: Router,
     private userSvc: UsersService,
     private authSvc: AuthService,
     private shareDataSvc: SharingDataService
@@ -43,13 +46,15 @@ export class UserProfileComponent implements OnInit {
     this.userSvc.getAllUser().subscribe({
       next: result => {
         this.userList = result;
-        console.log('====user list====');;
-        console.log(this.userList);
+        // console.log('====user list====');;
+        // console.log(this.userList);
         const user = this.userList.filter((item: any) => this.id == item.user.id);
         this.userData = user;
-        this.email = this.userData[0]?.user?.email;
-        console.log(this.email);
-        
+        this.userId = this.userData[0]?.id;
+        // this.email = this.userData[0]?.user?.email;
+        // console.log(this.email);
+        // console.log('====user id====');;
+        // console.log(this.userData[0]?.id);      
       },
       error: err => {
         console.log('=== handle error ====')
@@ -58,8 +63,11 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  changePassword() {
-    this.shareDataSvc.setUserEmail(this.email);
+  editProfile(){
+    this.router.navigate(['/user/' + this.userId]);
   }
+  // changePassword() {
+  //   this.shareDataSvc.setUserEmail(this.email);
+  // }
 
 }

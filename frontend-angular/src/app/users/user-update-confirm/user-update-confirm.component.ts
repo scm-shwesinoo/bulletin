@@ -22,6 +22,7 @@ export class UserUpdateConfirmComponent implements OnInit {
   public userInfo: any;
   profileUrl: any;
   loginId: any;
+  role: any;
 
   constructor(
     private router: Router,
@@ -39,11 +40,17 @@ export class UserUpdateConfirmComponent implements OnInit {
     this.authSvc.id.subscribe((data: string | null) => {
       this.loginId = data;
     });
+    this.role = localStorage.getItem('role');
+    this.authSvc.role.next(this.role);
+    this.authSvc.role.subscribe((data: string | null) => {
+      this.role = data;
+    });
     console.log('==userdata==');
     console.log(this.userData.profile);
     console.log('===old profile');
     console.log(this.userData);
-
+    console.log('===role');
+    console.log(this.role);
 
     this.userId = this.userData.userId;
     // this.getUserList();
@@ -98,7 +105,12 @@ export class UserUpdateConfirmComponent implements OnInit {
         next: res => {
           this.shareDataSvc.setUserData(null);
           this.snackBar.open('User Updated Successfully!', '', { duration: 3000 });
-          this.router.navigate(['/user-list']);
+          if(this.role === 'authenticated'){
+            this.router.navigate(['/user-list']);
+          }else{
+            this.router.navigate(['/user-profile']);
+          }
+          // this.router.navigate(['/user-list']);
         },
         error: err => {
           console.log('=== handle error ===');
@@ -125,7 +137,12 @@ export class UserUpdateConfirmComponent implements OnInit {
             next: res => {
               this.shareDataSvc.setUserData(null);
               this.snackBar.open('User Updated Successfully!', '', { duration: 3000 });
-              this.router.navigate(['/user-list']);
+              if(this.role === 'authenticated'){
+                this.router.navigate(['/user-list']);
+              }else{
+                this.router.navigate(['/user-profile']);
+              }
+              // this.router.navigate(['/user-list']);
             },
             error: err => {
               console.log('=== handle error ====')

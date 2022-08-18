@@ -33,7 +33,8 @@
       </tr>
       <tr *ngIf="role === 'user'">
         <td class="change-btn" colspan="2">
-          <a [routerLink]="['/password-change']" (click)="changePassword()">Change Password</a>
+          <!-- <a [routerLink]="['/password-change']" (click)="changePassword()">Change Password</a> -->
+          <button mat-icon-button (click)="editProfile()" color="primary">Edit Profile</button>
         </td>
       </tr>
     </table>

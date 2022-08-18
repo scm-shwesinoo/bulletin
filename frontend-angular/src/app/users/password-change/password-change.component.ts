@@ -94,7 +94,7 @@ export class PasswordChangeComponent implements OnInit {
           if(this.role === 'authenticated'){
             this.router.navigate(['/user-list']);
           }else{
-            this.router.navigate(['user-profile']);
+            this.router.navigate(['/user-profile']);
           }
         }else{
           this.snackBar.open('Incorrect Password!', '', { duration: 3000 });

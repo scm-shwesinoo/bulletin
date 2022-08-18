@@ -54,15 +54,15 @@ module.exports = createCoreService('api::employee.employee', ({ strapi }) => ({
         const id = entry.id;
 
         try {
-            await strapi.entityService.create("plugin::users-permissions.user", {
-                data: {
-                    username: ctx.request.body.data.name,
-                    email: ctx.request.body.data.email,
-                    password: ctx.request.body.data.password,
-                    employee: [id],
-                    role: [ctx.request.body.data.role]
-                }
-            })
+            ctx.request.body = {
+                username: ctx.request.body.data.name,
+                email: ctx.request.body.data.email,
+                password: ctx.request.body.data.password,
+                employee: id,
+                role: ctx.request.body.data.role
+            };
+            await strapi.controller("plugin::users-permissions.user").create(ctx);
+
         } catch (error) {
             await strapi.entityService.delete("api::employee.employee", id);
             throw new Error(error.message);

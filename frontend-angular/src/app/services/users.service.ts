@@ -2,60 +2,38 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
-import * as qs from 'qs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
 
-  apiUrl = 'http://localhost:1337/api';
+  apiUrl = environment.apiURL;
+
+   token = localStorage.getItem('token');
+   headers = new HttpHeaders()
+    .set('content-type', 'application/json')
+    .set('Authorization', `Bearer ${this.token}`);
 
   constructor(private http: HttpClient) { }
 
   getAllUser(): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders()
-      .set('content-type', 'application/json')
-      .set('Authorization', `Bearer ${token}`);
-
     const url = this.apiUrl + `/employees`;
-    return this.http.get(url, { 'headers': headers });
+    return this.http.get(url, { 'headers': this.headers });
   }
 
   getEachUser(userId: any): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders()
-      .set('content-type', 'application/json')
-      .set('Authorization', `Bearer ${token}`);
-
-    // const query = qs.stringify({
-    //   populate: '*',
-    // }, {
-    //   encodeValuesOnly: true,
-    // });
-
-    // const url = this.apiUrl + `/employees/${userId}?${query}`;
     const url = this.apiUrl + `/employees/${userId}`;
-    return this.http.get(url, { 'headers': headers });
+    return this.http.get(url, { 'headers': this.headers });
   }
 
   createUser(data: any): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders()
-      .set('content-type', 'application/json')
-      .set('Authorization', `Bearer ${token}`);
-
     const url = this.apiUrl + '/employees';
-    return this.http.post(url, data);
+    return this.http.post(url, data, { 'headers': this.headers });
   }
 
   uploadProfile(file: any): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders()
-      .set('content-type', 'application/json')
-      .set('Authorization', `Bearer ${token}`);
-
     const fileData = new FormData();
     fileData.append('files', file);
 
@@ -64,43 +42,28 @@ export class UsersService {
   }
 
   updateUser(data: any, userId: any): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders()
-      .set('content-type', 'application/json')
-      .set('Authorization', `Bearer ${token}`);
-
     const url = this.apiUrl + `/employees/${userId}`;
-    return this.http.put(url, data, { 'headers': headers });
+    return this.http.put(url, data, { 'headers': this.headers });
   }
 
   deleteUser(userId: any): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders()
-      .set('content-type', 'application/json')
-      .set('Authorization', `Bearer ${token}`);
-
     const url = this.apiUrl + `/employees/${userId}`;
-    return this.http.delete(url, { 'headers': headers });
+    return this.http.delete(url, { 'headers': this.headers });
   }
 
   changePassword(data: any): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders()
-      .set('content-type', 'application/json')
-      .set('Authorization', `Bearer ${token}`);
-
     const url = this.apiUrl + '/password';
-    return this.http.post(url, data, { 'headers': headers });
+    return this.http.post(url, data, { 'headers': this.headers });
+  }
+
+  getRole(): Observable<any> {
+    const url = this.apiUrl + `/users-permissions/roles`;
+    return this.http.get(url, { 'headers': this.headers });
   }
 
   getUser(): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders()
-      .set('content-type', 'application/json')
-      .set('Authorization', `Bearer ${token}`);
-
     const url = this.apiUrl + '/users';
-    return this.http.get(url, { 'headers': headers });
+    return this.http.get(url, { 'headers': this.headers });
   }
   // no need
   // getUser(): Observable<any> {

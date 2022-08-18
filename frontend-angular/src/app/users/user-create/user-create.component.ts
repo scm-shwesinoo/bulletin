@@ -29,6 +29,7 @@ export class UserCreateComponent implements OnInit {
   userDetail: any;
   existingUser: any;
   isEditUser: boolean = true;
+  chooseImage: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -61,6 +62,7 @@ export class UserCreateComponent implements OnInit {
     const data = this.shareDataSvc.getUserData();
     this.userDetail = data;
     if (this.userDetail) {
+      this.chooseImage = true;
       this.profileUrl = this.userDetail.profile
       this.file = this.userDetail.file
       this.userForm.setValue({
@@ -89,6 +91,7 @@ export class UserCreateComponent implements OnInit {
   }
 
   onSelectFile(e: any) {
+    this.chooseImage = true;
     if (e.target.files) {
       var reader = new FileReader();
       reader.readAsDataURL(e.target.files[0]);
@@ -121,6 +124,7 @@ export class UserCreateComponent implements OnInit {
   }
 
   clearData() {
+    this.profileUrl = null;
     this.userForm.reset();
   }
 }

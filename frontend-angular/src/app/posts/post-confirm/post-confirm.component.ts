@@ -37,13 +37,15 @@ export class PostConfirmComponent implements OnInit {
 
   ngOnInit(): void {
     this.postData = this.shareDataSvc.getPostData();
-    this.postId = this.postData.postId;
-    if (this.postData.status === true) {
+    console.log('postdata',this.postData);
+    this.showAlert();
+
+    this.postId = this.postData?.postId;
+    if (this.postData?.status === true) {
       this.isChecked = true;
     } else {
       this.isChecked = false;
     }
-
     this.getPostData();
   }
 
@@ -52,6 +54,16 @@ export class PostConfirmComponent implements OnInit {
       this.getEachPost();
     } else {
       this.getPostList();
+    }
+  }
+
+  showAlert(){
+    if(!this.postData){
+      if(window.confirm('Go back to post create page')){
+        this.router.navigate(['/post']);
+      }else{
+        this.router.navigate(['/post']);
+      }
     }
   }
 

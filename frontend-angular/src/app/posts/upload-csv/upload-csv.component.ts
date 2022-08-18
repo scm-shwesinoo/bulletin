@@ -27,8 +27,6 @@ export class UploadCsvComponent implements OnInit {
   public duplicateTitle: any = [];
   public loginId: any;
   public csvData: any;
-  // public title: any = [];
-  // public description: any = [];
   public data: any = [];
   constructor(
     private postSvc: PostService,
@@ -39,6 +37,7 @@ export class UploadCsvComponent implements OnInit {
     private dialogRef: MatDialogRef<UploadCsvComponent>) { }
 
   @ViewChild('csvReader') csvReader: any;
+  
   ngOnInit(): void {
     this.loginId = localStorage.getItem('id');
     this.authSvc.id.next(this.loginId);
@@ -87,7 +86,6 @@ export class UploadCsvComponent implements OnInit {
           };
           this.data.push(res);
         })
-        // console.log(this.data, '====data===');
         this.csvData = {
           "data": this.data
         }

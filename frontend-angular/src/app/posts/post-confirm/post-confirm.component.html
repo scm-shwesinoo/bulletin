@@ -4,11 +4,11 @@
   <table class="confirm-table">
     <tr>
       <td class="sub-ttl">Title</td>
-      <td>{{postData.title}}</td>
+      <td>{{postData?.title}}</td>
     </tr>
     <tr>
       <td class="sub-ttl">Description{{postData.postId}}</td>
-      <td>{{postData.description}}</td>
+      <td>{{postData?.description}}</td>
     </tr>
     <tr *ngIf="postData.postId">
       <td class="sub-ttl">Status</td>

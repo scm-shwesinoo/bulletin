@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,14 +16,13 @@ export class AuthService {
   public id = new BehaviorSubject<string | null>(null);
   public id$ = this.role.asObservable();
 
-
   constructor(private http: HttpClient) {
     this.role.next(String(localStorage.getItem('role')));
     this.id.next(String(localStorage.getItem('id')));
     this.name.next(String(localStorage.getItem('name')));
   }
 
-  apiUrl = 'http://localhost:1337/api';
+  apiUrl = environment.apiURL;
 
   login(data: any): Observable<any> {
     const headers = new HttpHeaders()

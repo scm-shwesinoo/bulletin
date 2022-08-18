@@ -4,13 +4,14 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { environment } from 'src/environments/environment';
 
 //services
 import { UsersService } from 'src/app/services/users.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 //pages
 import { ListModalComponent } from 'src/app/components/list-modal/list-modal.component';
-import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-user-list',
@@ -20,7 +21,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class UserListComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'email', 'profile', 'created_user_id', 'phone', 'dob', 'address', 'created_at', 'updated_at', 'action'];
-  apiUrl: string = 'http://localhost:1337';
+  apiUrl = environment.imageURL;
   userList: any = [];
   orgList: any = [];
   eachUser: any;
@@ -45,8 +46,6 @@ export class UserListComponent implements OnInit {
   ngOnInit(): void {
     this.getAllUserData();
     console.log('===user data==='); 
-    
-    // this.userInfo = JSON.parse(localStorage.getItem('userInfo') || '[]');
     this.loginUser = localStorage.getItem('username');
     // this.authSvc.role.next(this.loginUser);
     // this.authSvc.role.subscribe((data: string | null) => {

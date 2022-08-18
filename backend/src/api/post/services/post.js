@@ -57,7 +57,6 @@ module.exports = createCoreService('api::post.post', ({ strapi }) => ({
     //   title: "CSV1",
     //   user: [1]
     // }
-
     const { data } = ctx.request.body;
     console.log(ctx.request.body);
     await Promise.all(

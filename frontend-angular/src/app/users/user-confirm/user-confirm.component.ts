@@ -23,6 +23,8 @@ export class UserConfirmComponent implements OnInit {
   // public userInfo: any;
   createdUser: any;
   role: any;
+  userRole: any = [];
+  test: any;
 
   constructor(
     private router: Router,
@@ -40,14 +42,40 @@ export class UserConfirmComponent implements OnInit {
       this.createdUser = data;
     });
     this.userData = this.shareDataSvc.getUserData();
-    console.log('file',this.userData.file);
-    
-    if (this.userData.type == 0) {
-      this.role = 1;
-    } else {
-      this.role = 3;
-    }
+    console.log('file', this.userData);
     this.getUserList();
+    this.getRole();
+    this.showAlert();
+    // console.log('type', this.userData.type)
+  }
+
+  showAlert() {
+    if (!this.userData) {
+      if (window.confirm('Go back to user create page')) {
+        this.router.navigate(['/user']);
+      } else {
+        this.router.navigate(['/user']);
+      }
+    }
+  }
+
+  getRole() {
+    this.userSvc.getRole().subscribe({
+      next: result => {
+        this.userRole.push(result);
+        if (this.userData.type == 0) {
+          this.test = this.userRole.map((result: any) => result.roles.filter((item: any) => item.name == 'Authenticated'));
+          this.role = this.test[0][0].id;
+        } else {
+          this.test = this.userRole.map((result: any) => result.roles.filter((item: any) => item.name == 'User'));
+          this.role = this.test[0][0].id;
+        }
+      },
+      error: err => {
+        console.log('=== handle error ====')
+        console.log(err)
+      }
+    })
   }
 
   getUserList() {
@@ -74,7 +102,7 @@ export class UserConfirmComponent implements OnInit {
           applyText: 'Ok'
         }
       });
-    }else{
+    } else {
       this.userSvc.uploadProfile(this.userData.file).subscribe({
         next: (res: any) => {
           this.profileUrl = res[0].url;
@@ -105,7 +133,7 @@ export class UserConfirmComponent implements OnInit {
           })
         }
       })
-  
+
     }
 
     // const duplicateUser = this.userList.filter((item: any) => item.email === this.userData.email);

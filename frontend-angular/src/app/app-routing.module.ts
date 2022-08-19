@@ -21,13 +21,15 @@ import { PostResolver } from './resolver/post.resolver';
 //guard
 import { AuthGuard } from './guards/auth.guard';
 import { PostEditComponent } from './posts/post-edit/post-edit.component';
+import { PostAddComponent } from './posts/post-add/post-add.component';
 
 const routes: Routes = [
   { path: '', component: UserLoginComponent },
   { path: 'login', component: UserLoginComponent },
   { path: 'post-list', component: PostListComponent, canActivate: [AuthGuard] },
   // { path: 'post-list', component: PostListComponent },
-  { path: 'post', component: PostCreateComponent, canActivate: [AuthGuard] },
+  // { path: 'post', component: PostCreateComponent, canActivate: [AuthGuard] },
+  { path: 'post', component: PostAddComponent, canActivate: [AuthGuard] },
   // { path: 'post/:id', component: PostCreateComponent, resolve: { post: PostResolver }, canActivate: [AuthGuard] },
   { path: 'post/:id', component: PostEditComponent, resolve: { post: PostResolver }, canActivate: [AuthGuard] },
   { path: 'post-confirm', component: PostConfirmComponent, canActivate: [AuthGuard] },

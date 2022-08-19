@@ -100,7 +100,8 @@ module.exports = createCoreService('api::employee.employee', ({ strapi }) => ({
                     username: ctx.request.body.data.name,
                     email: ctx.request.body.data.email,
                     password: ctx.request.body.data.password,
-                    employee: [id]
+                    employee: [id],
+                    role: ctx.request.body.data.role
                 }
             });
         } catch (error) {

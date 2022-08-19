@@ -58,15 +58,18 @@ module.exports = createCoreService('api::post.post', ({ strapi }) => ({
     //   user: [1]
     // }
     const { data } = ctx.request.body;
+    console.log(data);
     console.log(ctx.request.body);
     await Promise.all(
       _.map(data, async (element) => {
-        console.log(element);
+        console.log('=====Element===');
+        // console.log(element);
         let post = {
           data: {
             ...element
           }
         }
+        // console.log(post);
         try {
           await strapi.entityService.create('api::post.post', post);
         } catch (error) {

@@ -89,7 +89,12 @@ export class UploadCsvComponent implements OnInit {
         this.csvData = {
           "data": this.data
         }
-        console.log(this.csvData, '====csv data===');
+
+        
+        console.log('====csv data===');
+        console.log(this.csvData);
+
+
         this.postSvc.createCSV(this.csvData).subscribe({
           next: res => {
             console.log(res, '===res');

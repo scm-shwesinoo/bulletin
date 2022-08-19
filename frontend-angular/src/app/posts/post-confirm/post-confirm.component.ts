@@ -22,10 +22,9 @@ export class PostConfirmComponent implements OnInit {
   public postList: any;
   public postListDetail: any;
   public postId: any;
-  // public userInfo: any;
-  // public existingPost: any;
   public isChecked: boolean = true;
   public loginId: any;
+  public type: string = '';
 
   constructor(
     private router: Router,
@@ -37,9 +36,10 @@ export class PostConfirmComponent implements OnInit {
 
   ngOnInit(): void {
     this.postData = this.shareDataSvc.getPostData();
-    console.log('postdata',this.postData);
+    console.log('title', this.postData);
+    console.log('type', this.type);
     this.showAlert();
-
+    this.type = this.postData.type;
     this.postId = this.postData?.postId;
     if (this.postData?.status === true) {
       this.isChecked = true;
@@ -47,6 +47,17 @@ export class PostConfirmComponent implements OnInit {
       this.isChecked = false;
     }
     this.getPostData();
+
+  }
+
+  showAlert() {
+    if (!this.postData) {
+      if (window.confirm('Go back to post create page')) {
+        this.router.navigate(['/post']);
+      } else {
+        this.router.navigate(['/post']);
+      }
+    }
   }
 
   getPostData() {
@@ -54,16 +65,6 @@ export class PostConfirmComponent implements OnInit {
       this.getEachPost();
     } else {
       this.getPostList();
-    }
-  }
-
-  showAlert(){
-    if(!this.postData){
-      if(window.confirm('Go back to post create page')){
-        this.router.navigate(['/post']);
-      }else{
-        this.router.navigate(['/post']);
-      }
     }
   }
 
@@ -91,130 +92,202 @@ export class PostConfirmComponent implements OnInit {
     });
   }
 
-  createPost() {
-    if (!this.postId) {
-      this.authSvc.id.subscribe((data: string | null) => {
-        this.loginId = data;
-      });
-      const data = {
-        "data": {
-          "title": this.postData.title,
-          "description": this.postData.description,
-          "status": true,
-          "user": [this.loginId]
-        }
-      };
-      this.postSvc.createPost(data).subscribe({
-        next: res => {
-          this.shareDataSvc.setPostData(null);
-          this.snackBar.open('Post Created Successfully!', '', { duration: 3000 });
-          this.router.navigate(['/post-list']);
-        },
-        error: err => {
-          this.dialog.open(PlainModalComponent, {
-            data: {
-              content: `Post title already exists in the post list!`,
-              note: '',
-              applyText: 'Ok'
-            }
-          });
-          console.log('=== handle error ====')
-          console.log(err)
-        }
-      })
-    } else {
-      this.authSvc.id.subscribe((data: string | null) => {
-        this.loginId = data;
-      });
-      const data = {
-        "data": {
-          "title": this.postData.title,
-          "description": this.postData.description,
-          "status": this.postData.status
-          // "user": [this.loginId]
-        }
-      };
-      this.postSvc.updatePost(data, this.postId).subscribe({
-        next: res => {
-          console.log(res);
-          this.shareDataSvc.setPostData(null);
-          this.snackBar.open('Post Updated Successfully!', '', { duration: 3000 });
-          this.router.navigate(['/post-list']);
-        },
-        error: err => {
-          this.dialog.open(PlainModalComponent, {
-            data: {
-              content: `Post title already exists in the post list!`,
-              note: '',
-              applyText: 'Ok'
-            }
-          });
-          console.log('=======Handle error======');
-          console.log(err);
-        }
-      })
+  // createPost() {
+  //   if (!this.postId) {
+  //     this.authSvc.id.subscribe((data: string | null) => {
+  //       this.loginId = data;
+  //     });
+  //     const data = {
+  //       "data": {
+  //         "title": this.postData.title,
+  //         "description": this.postData.description,
+  //         "status": true,
+  //         "user": [this.loginId]
+  //       }
+  //     };
+  //     this.postSvc.createPost(data).subscribe({
+  //       next: res => {
+  //         this.shareDataSvc.setPostData(null);
+  //         this.snackBar.open('Post Created Successfully!', '', { duration: 3000 });
+  //         this.router.navigate(['/post-list']);
+  //       },
+  //       error: err => {
+  //         this.dialog.open(PlainModalComponent, {
+  //           data: {
+  //             content: `Post title already exists in the post list!`,
+  //             note: '',
+  //             applyText: 'Ok'
+  //           }
+  //         });
+  //         console.log('=== handle error ====')
+  //         console.log(err)
+  //       }
+  //     })
+  //   } else {
+  //     this.authSvc.id.subscribe((data: string | null) => {
+  //       this.loginId = data;
+  //     });
+  //     const data = {
+  //       "data": {
+  //         "title": this.postData.title,
+  //         "description": this.postData.description,
+  //         "status": this.postData.status
+  //         // "user": [this.loginId]
+  //       }
+  //     };
+  //     this.postSvc.updatePost(data, this.postId).subscribe({
+  //       next: res => {
+  //         console.log(res);
+  //         this.shareDataSvc.setPostData(null);
+  //         this.snackBar.open('Post Updated Successfully!', '', { duration: 3000 });
+  //         this.router.navigate(['/post-list']);
+  //       },
+  //       error: err => {
+  //         this.dialog.open(PlainModalComponent, {
+  //           data: {
+  //             content: `Post title already exists in the post list!`,
+  //             note: '',
+  //             applyText: 'Ok'
+  //           }
+  //         });
+  //         console.log('=======Handle error======');
+  //         console.log(err);
+  //       }
+  //     })
+  //   }
+
+  //   // const duplicateTitle = this.postList.filter((item: any) => item.title === this.postData.title && item.id != this.postId);
+
+  //   // if (duplicateTitle.length > 0) {
+  //   //   this.dialog.open(PlainModalComponent, {
+  //   //     data: {
+  //   //       content: `${this.postData.title} already exists in the post list!`,
+  //   //       note: '',
+  //   //       applyText: 'Ok'
+  //   //     }
+  //   //   });
+  //   // } else {
+  //   //   if (this.postId) {
+  //   //     const data = {
+  //   //       title: this.postData.title,
+  //   //       description: this.postData.description,
+  //   //       status: this.postData.status,
+  //   //       created_user_id: this.postListDetail.created_user_id,
+  //   //       updated_user_id: this.userInfo.id,
+  //   //       created_at: this.postListDetail.created_at,
+  //   //       updated_at: new Date(),
+  //   //       deleted_at: "",
+  //   //       is_removed: false
+  //   //     };
+  //   //     this.postSvc.updatePost(data, this.postId)
+  //   //       .subscribe({
+  //   //         next: result => {
+  //   //           this.shareDataSvc.setPostData(null);
+  //   //           this.router.navigate(['/post-list']);
+  //   //         },
+  //   //         error: err => {
+  //   //           console.log('=== handle error ====')
+  //   //           console.log(err)
+  //   //         }
+  //   //       });
+  //   //     this.snackBar.open('Post Updated Successfully!', '', { duration: 3000 });
+  //   //   } else {
+  //   //     const data = {
+  //   //       title: this.postData.title,
+  //   //       description: this.postData.description,
+  //   //       status: 1,
+  //   //       created_user_id: this.userInfo.id,
+  //   //       updated_user_id: this.userInfo.id,
+  //   //       created_at: new Date(),
+  //   //       updated_at: new Date(),
+  //   //       deleted_at: "",
+  //   //       is_removed: false
+  //   //     };
+  //   //     this.postSvc.createPost(data).subscribe({
+  //   //       next: result => {
+  //   //         this.shareDataSvc.setPostData(null);
+  //   //         this.router.navigate(['/post-list']);
+  //   //       },
+  //   //       error: err => {
+  //   //         console.log('=== handle error ====')
+  //   //         console.log(err)
+  //   //       }
+  //   //     });
+  //   //     this.snackBar.open('Post Created Successfully!', '', { duration: 3000 });
+  //   //   }
+  //   // }
+  // }
+
+  onSubmit(){
+    if(this.type == 'add'){
+      this.createPost();
+    }else{
+      this.updatePost();
     }
+  }
 
-    // const duplicateTitle = this.postList.filter((item: any) => item.title === this.postData.title && item.id != this.postId);
+  createPost() {
+    this.authSvc.id.subscribe((data: string | null) => {
+      this.loginId = data;
+    });
+    const data = {
+      "data": {
+        "title": this.postData.title,
+        "description": this.postData.description,
+        "status": true,
+        "user": [this.loginId]
+      }
+    };
+    this.postSvc.createPost(data).subscribe({
+      next: res => {
+        this.shareDataSvc.setPostData(null);
+        this.snackBar.open('Post Created Successfully!', '', { duration: 3000 });
+        this.router.navigate(['/post-list']);
+      },
+      error: err => {
+        this.dialog.open(PlainModalComponent, {
+          data: {
+            content: `Post title already exists in the post list!`,
+            note: '',
+            applyText: 'Ok'
+          }
+        });
+        console.log('=== handle error ====')
+        console.log(err)
+      }
+    })
+  }
 
-    // if (duplicateTitle.length > 0) {
-    //   this.dialog.open(PlainModalComponent, {
-    //     data: {
-    //       content: `${this.postData.title} already exists in the post list!`,
-    //       note: '',
-    //       applyText: 'Ok'
-    //     }
-    //   });
-    // } else {
-    //   if (this.postId) {
-    //     const data = {
-    //       title: this.postData.title,
-    //       description: this.postData.description,
-    //       status: this.postData.status,
-    //       created_user_id: this.postListDetail.created_user_id,
-    //       updated_user_id: this.userInfo.id,
-    //       created_at: this.postListDetail.created_at,
-    //       updated_at: new Date(),
-    //       deleted_at: "",
-    //       is_removed: false
-    //     };
-    //     this.postSvc.updatePost(data, this.postId)
-    //       .subscribe({
-    //         next: result => {
-    //           this.shareDataSvc.setPostData(null);
-    //           this.router.navigate(['/post-list']);
-    //         },
-    //         error: err => {
-    //           console.log('=== handle error ====')
-    //           console.log(err)
-    //         }
-    //       });
-    //     this.snackBar.open('Post Updated Successfully!', '', { duration: 3000 });
-    //   } else {
-    //     const data = {
-    //       title: this.postData.title,
-    //       description: this.postData.description,
-    //       status: 1,
-    //       created_user_id: this.userInfo.id,
-    //       updated_user_id: this.userInfo.id,
-    //       created_at: new Date(),
-    //       updated_at: new Date(),
-    //       deleted_at: "",
-    //       is_removed: false
-    //     };
-    //     this.postSvc.createPost(data).subscribe({
-    //       next: result => {
-    //         this.shareDataSvc.setPostData(null);
-    //         this.router.navigate(['/post-list']);
-    //       },
-    //       error: err => {
-    //         console.log('=== handle error ====')
-    //         console.log(err)
-    //       }
-    //     });
-    //     this.snackBar.open('Post Created Successfully!', '', { duration: 3000 });
-    //   }
-    // }
+  updatePost() {
+    this.authSvc.id.subscribe((data: string | null) => {
+      this.loginId = data;
+    });
+    const data = {
+      "data": {
+        "title": this.postData.title,
+        "description": this.postData.description,
+        "status": this.postData.status
+      }
+    };
+    this.postSvc.updatePost(data, this.postId).subscribe({
+      next: res => {
+        console.log(res);
+        this.shareDataSvc.setPostData(null);
+        this.snackBar.open('Post Updated Successfully!', '', { duration: 3000 });
+        this.router.navigate(['/post-list']);
+      },
+      error: err => {
+        this.dialog.open(PlainModalComponent, {
+          data: {
+            content: `Post title already exists in the post list!`,
+            note: '',
+            applyText: 'Ok'
+          }
+        });
+        console.log('=======Handle error======');
+        console.log(err);
+      }
+    })
   }
 
   goBackPostCreate() {

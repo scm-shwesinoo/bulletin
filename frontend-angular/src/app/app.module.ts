@@ -13,6 +13,7 @@ import { AppComponent } from './app.component';
 import { PostCreateComponent } from './posts/post-create/post-create.component';
 import { PostConfirmComponent } from './posts/post-confirm/post-confirm.component';
 import { PostEditComponent } from './posts/post-edit/post-edit.component';
+import { PostAddComponent } from './posts/post-add/post-add.component';
 import { UserLoginComponent } from './users/user-login/user-login.component';
 import { PlainModalComponent } from './components/plain-modal/plain-modal.component';
 import { PostListComponent } from './posts/post-list/post-list.component';
@@ -25,6 +26,7 @@ import { UserCreateComponent } from './users/user-create/user-create.component';
 import { UserConfirmComponent } from './users/user-confirm/user-confirm.component';
 import { UserUpdateComponent } from './users/user-update/user-update.component';
 import { UserUpdateConfirmComponent } from './users/user-update-confirm/user-update-confirm.component';
+import { UserFormComponent } from './users/user-form/user-form.component';
 
 //pipes
 import { PasswordPipe } from './pipes/password.pipe';
@@ -38,6 +40,7 @@ import { PostModalComponent } from './components/post-modal/post-modal.component
     AppComponent,
     PostCreateComponent,
     PostConfirmComponent,
+    PostAddComponent,
     PostEditComponent,
     PlainModalComponent,
     UserLoginComponent,
@@ -51,6 +54,7 @@ import { PostModalComponent } from './components/post-modal/post-modal.component
     UserConfirmComponent,
     UserUpdateComponent,
     UserUpdateConfirmComponent,
+    UserFormComponent,
     PasswordPipe,
     PostModalComponent,
   ],

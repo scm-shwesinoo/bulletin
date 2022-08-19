@@ -1,6 +1,7 @@
 <div class="user-container">
   <h2 class="user">Create User</h2>
-  <form [formGroup]="userForm" (ngSubmit)="confirmUser()" class="user-form">
+  <app-user-form formType="add"></app-user-form>
+  <!-- <form [formGroup]="userForm" (ngSubmit)="confirmUser()" class="user-form">
 
     <mat-form-field class="form-group" appearance="outline">
       <mat-label>Name</mat-label>
@@ -56,7 +57,7 @@
     <mat-form-field class="form-group" appearance="outline">
       <mat-label>Address</mat-label>
       <textarea matInput formControlName="address"></textarea>
-    </mat-form-field>
+    </mat-form-field> -->
     <!-- 
     <div>
       <h4>Profile</h4>
@@ -65,7 +66,7 @@
     <img class="image-upload" src={{profileUrl}} alt="Profile Image" width="100" height="100" style="border: radius 15px;">
     </div> -->
 
-    <div>
+    <!-- <div>
       <h4>Profile</h4>
       <button type="button" mat-stroked-button (click)="fileInput.click()">Upload Image</button>
       <input hidden #fileInput type="file" id="file" (change)="onSelectFile($event)"><br><br>
@@ -77,5 +78,5 @@
         class="btn-submit">Confirm</button>
       <button mat-stroked-button type="reset" (click)="clearData()" color="warn">Clear</button>
     </div>
-  </form>
+  </form> -->
 </div>

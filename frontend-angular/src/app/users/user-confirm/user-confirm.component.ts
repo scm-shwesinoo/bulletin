@@ -24,7 +24,11 @@ export class UserConfirmComponent implements OnInit {
   createdUser: any;
   role: any;
   userRole: any = [];
+  loginRole: any;
   test: any;
+  loginId: any;
+  userId: any;
+  formType: any;
 
   constructor(
     private router: Router,
@@ -41,20 +45,33 @@ export class UserConfirmComponent implements OnInit {
     this.authSvc.name.subscribe((data: string | null) => {
       this.createdUser = data;
     });
+    this.loginId = localStorage.getItem('id');
+    this.authSvc.id.next(this.loginId);
+    this.authSvc.id.subscribe((data: string | null) => {
+      this.loginId = data;
+    });
+    this.loginRole = localStorage.getItem('role');
+    this.authSvc.role.next(this.loginRole);
+    this.authSvc.role.subscribe((data: string | null) => {
+      this.loginRole = data;
+    });
     this.userData = this.shareDataSvc.getUserData();
-    console.log('file', this.userData);
+    this.showAlert();
+    this.userId = this.userData.userId;
+    this.formType = this.userData.formType;
+    console.log('formType', this.formType);
     this.getUserList();
     this.getRole();
-    this.showAlert();
-    // console.log('type', this.userData.type)
+    this.getEachUserData();
+    console.log('formType', this.formType);
+    console.log('type', this.userData.type)
+    console.log('role', this.loginRole)
   }
 
   showAlert() {
     if (!this.userData) {
-      if (window.confirm('Go back to user create page')) {
-        this.router.navigate(['/user']);
-      } else {
-        this.router.navigate(['/user']);
+      if (window.confirm('Go back to user list page')) {
+        this.router.navigate(['/user-list']);
       }
     }
   }
@@ -90,6 +107,30 @@ export class UserConfirmComponent implements OnInit {
         console.log(err)
       }
     });
+  }
+
+  getEachUserData() {
+    if (this.userId) {
+      this.userSvc.getEachUser(this.userId).subscribe({
+        next: result => {
+          this.userListDetail = result;
+          console.log('detail')
+          console.log(this.userListDetail);
+        },
+        error: err => {
+          console.log('=== handle error ===');
+          console.log(err);
+        }
+      });
+    }
+  }
+
+  onSubmit() {
+    if (this.formType == 'add') {
+      this.createUser();
+    } else {
+      this.updateUser();
+    }
   }
 
   createUser() {
@@ -133,9 +174,7 @@ export class UserConfirmComponent implements OnInit {
           })
         }
       })
-
     }
-
     // const duplicateUser = this.userList.filter((item: any) => item.email === this.userData.email);
     // if (duplicateUser.length > 0) {
     //   this.dialog.open(PlainModalComponent, {
@@ -176,8 +215,69 @@ export class UserConfirmComponent implements OnInit {
     // }
   }
 
+  updateUser() {
+    if (this.userData.oldProfile !== null) {
+      const data = {
+        "data": {
+          "name": this.userData.name,
+          "email": this.userData.email,
+          "type": this.userData.type,
+          "phone": this.userData.phone,
+          "dob": this.userData.dob,
+          "address": this.userData.address,
+          "profile": this.userData.oldProfile,
+          "updated_user_id": this.loginId,
+          "role": this.role
+        }
+      };
+      this.update(data);
+    } else {
+      this.userSvc.uploadProfile(this.userData.file).subscribe({
+        next: (res: any) => {
+          this.profileUrl = res[0].url;
+          const data = {
+            "data": {
+              "name": this.userData.name,
+              "email": this.userData.email,
+              "type": this.userData.type,
+              "phone": this.userData.phone,
+              "dob": this.userData.dob,
+              "address": this.userData.address,
+              "profile": this.profileUrl,
+              "updated_user_id": this.loginId,
+              "role": this.role
+            }
+          };
+          this.update(data);
+        }
+      })
+    }
+  }
+
+  update(data: any) {
+    this.userSvc.updateUser(data, this.userId).subscribe({
+      next: res => {
+        this.shareDataSvc.setUserData(null);
+        this.snackBar.open('User Updated Successfully!', '', { duration: 3000 });
+        if (this.loginRole == 'authenticated') {
+          this.router.navigate(['/user-list']);
+        } else {
+          this.router.navigate(['/user-profile']);
+        }
+      },
+      error: err => {
+        console.log('=== handle error ====')
+        console.log(err)
+      }
+    })
+  }
+
   goBackUserCreate() {
-    this.router.navigate(['/user']);
+    if (this.formType == 'add') {
+      this.router.navigate(['/user']);
+    } else {
+      this.router.navigate(['/user/' + this.userId]);
+    }
   }
 }
 

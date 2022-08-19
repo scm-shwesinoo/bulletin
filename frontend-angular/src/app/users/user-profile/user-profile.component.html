@@ -31,7 +31,8 @@
         <td class="label">Address</td>
         <td>{{userData[0]?.address}}</td>
       </tr>
-      <tr *ngIf="role === 'user'">
+      <!-- <tr *ngIf="role === 'user'"> -->
+        <tr>
         <td class="change-btn" colspan="2">
           <!-- <a [routerLink]="['/password-change']" (click)="changePassword()">Change Password</a> -->
           <button mat-icon-button (click)="editProfile()" color="primary">Edit Profile</button>

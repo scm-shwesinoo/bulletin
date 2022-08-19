@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SharingDataService } from 'src/app/services/sharing-data.service';
-import { UsersService } from 'src/app/services/users.service';
+// import { UsersService } from 'src/app/services/users.service';
 
 @Component({
   selector: 'app-user-update',
@@ -24,30 +24,30 @@ export class UserUpdateComponent implements OnInit {
   existingUser: any;
   isEditUser: boolean = true;
   apiUrl: string = 'http://localhost:1337';
-  imageUrl: any;
+  // imageUrl: any;
   profileUrl: any;
-  email: any;
+  // email: any;
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private activatedRoute: ActivatedRoute,
+    // private activatedRoute: ActivatedRoute,
     private shareDataSvc: SharingDataService,
-    private userSvc: UsersService
+    // private userSvc: UsersService
   ) { }
 
   ngOnInit(): void {
-    this.userId = this.activatedRoute.snapshot.params['id'];
-    this.userForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]],
-      type: [0],
-      phone: ['', [Validators.required,
-      Validators.pattern("^[0-9]{11}$")
-      ]],
-      dob: [''],
-      address: ['']
-    });
+    // this.userId = this.activatedRoute.snapshot.params['id'];
+    // this.userForm = this.fb.group({
+    //   name: ['', Validators.required],
+    //   email: ['', [Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')]],
+    //   type: [0],
+    //   phone: ['', [Validators.required,
+    //   Validators.pattern("^[0-9]{11}$")
+    //   ]],
+    //   dob: [''],
+    //   address: ['']
+    // });
     // if (this.existingUser) {
     //   this.userForm.patchValue({
     //     id: this.existingUser.id,
@@ -68,7 +68,7 @@ export class UserUpdateComponent implements OnInit {
     this.userDetail = data;
     if (this.userDetail) {
       // if(this.userDetail.profile == undefined){
-        this.imageUrl = this.userDetail.oldProfile
+        // this.imageUrl = this.userDetail.oldProfile
         // this.profileUrl = `http://localhost:1337${this.userDetail.oldProfile}`;
       //   this.profileUrl = this.apiUrl + this.userDetail.oldProfile;
       // }else{
@@ -84,28 +84,28 @@ export class UserUpdateComponent implements OnInit {
         address: this.userDetail.address,
       });
     } else {
-      this.userSvc.getEachUser(this.userId).subscribe({
-        next: (user: any) => {
-          // this.profileUrl = `http://localhost:1337${user.profile}`;
-          this.email = user.user.email;
-          this.imageUrl = user.profile;
-          this.profileUrl = this.apiUrl + user.profile;
-          this.userForm.patchValue({
-            id: user.id,
-            name: user.user.username,
-            password: user.user.password,
-            email: user.user.email,
-            type: user.type == true ? 1 : 0,
-            phone: user.phone,
-            dob: user.dob,
-            address: user.address
-          });
-        },
-        error: err => {
-          console.log('===handle error===');
-          console.log(err);
-        }
-      })
+      // this.userSvc.getEachUser(this.userId).subscribe({
+      //   next: (user: any) => {
+      //     // this.profileUrl = `http://localhost:1337${user.profile}`;
+      //     this.email = user.user.email;
+      //     this.imageUrl = user.profile;
+      //     this.profileUrl = this.apiUrl + user.profile;
+      //     this.userForm.patchValue({
+      //       id: user.id,
+      //       name: user.user.username,
+      //       password: user.user.password,
+      //       email: user.user.email,
+      //       type: user.type == true ? 1 : 0,
+      //       phone: user.phone,
+      //       dob: user.dob,
+      //       address: user.address
+      //     });
+      //   },
+      //   error: err => {
+      //     console.log('===handle error===');
+      //     console.log(err);
+      //   }
+      // })
     }
   }
 
@@ -134,41 +134,41 @@ export class UserUpdateComponent implements OnInit {
     }
   }
 
-  onSelectFile(e: any) {
-    this.imageUrl = null;
-    if (e.target.files) {
-      var reader = new FileReader();
-      reader.readAsDataURL(e.target.files[0]);
-      this.file = e.target.files[0];
-      reader.onload = (event: any) => {
-        this.imageUrl = null;
-        this.profileUrl = event.target.result; 
-      }
-    }
-  }
+  // onSelectFile(e: any) {
+  //   this.imageUrl = null;
+  //   if (e.target.files) {
+  //     var reader = new FileReader();
+  //     reader.readAsDataURL(e.target.files[0]);
+  //     this.file = e.target.files[0];
+  //     reader.onload = (event: any) => {
+  //       this.imageUrl = null;
+  //       this.profileUrl = event.target.result; 
+  //     }
+  //   }
+  // }
 
-  confirmUser() {
-    this.shareDataSvc.setUserData({
-      userId: this.userId,
-      name: this.userForm.value.name,
-      email: this.userForm.value.email,
-      type: this.userForm.value.type,
-      phone: this.userForm.value.phone,
-      dob: this.userForm.value.dob,
-      address: this.userForm.value.address,
-      profile: this.profileUrl,
-      oldProfile: this.imageUrl,
-      file: this.file
-    });
-    this.router.navigate(['/user-update-confirm']);
-  }
+  // confirmUser() {
+  //   this.shareDataSvc.setUserData({
+  //     userId: this.userId,
+  //     name: this.userForm.value.name,
+  //     email: this.userForm.value.email,
+  //     type: this.userForm.value.type,
+  //     phone: this.userForm.value.phone,
+  //     dob: this.userForm.value.dob,
+  //     address: this.userForm.value.address,
+  //     profile: this.profileUrl,
+  //     oldProfile: this.imageUrl,
+  //     file: this.file
+  //   });
+  //   this.router.navigate(['/user-update-confirm']);
+  // }
 
   clearData() {
     this.userForm.reset();
   }
 
-  changePassword() {
-    // this.shareDataSvc.setUserId(this.activatedRoute.snapshot.params['id']);
-    this.shareDataSvc.setUserEmail(this.email);
-  }
+  // changePassword() {
+  //   // this.shareDataSvc.setUserId(this.activatedRoute.snapshot.params['id']);
+  //   this.shareDataSvc.setUserEmail(this.email);
+  // }
 }

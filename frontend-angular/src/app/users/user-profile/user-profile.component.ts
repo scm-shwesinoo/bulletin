@@ -46,15 +46,9 @@ export class UserProfileComponent implements OnInit {
     this.userSvc.getAllUser().subscribe({
       next: result => {
         this.userList = result;
-        // console.log('====user list====');;
-        // console.log(this.userList);
         const user = this.userList.filter((item: any) => this.id == item.user.id);
         this.userData = user;
         this.userId = this.userData[0]?.id;
-        // this.email = this.userData[0]?.user?.email;
-        // console.log(this.email);
-        // console.log('====user id====');;
-        // console.log(this.userData[0]?.id);      
       },
       error: err => {
         console.log('=== handle error ====')
@@ -63,11 +57,7 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  editProfile(){
+  editProfile() {
     this.router.navigate(['/user/' + this.userId]);
   }
-  // changePassword() {
-  //   this.shareDataSvc.setUserEmail(this.email);
-  // }
-
 }

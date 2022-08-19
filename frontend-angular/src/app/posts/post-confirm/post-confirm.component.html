@@ -1,6 +1,7 @@
 <div class="post-confirm">
-  <h2 *ngIf="!postId" class="title">Create Post Confirmation</h2>
-  <h2 *ngIf="postId" class="title">Update Post Confirmation</h2>
+  <!-- <h2 *ngIf="!postId" class="title">Create Post Confirmation</h2>
+  <h2 *ngIf="postId" class="title">Update Post Confirmation</h2> -->
+  <h2 class="title">{{type == 'add'? 'Create Post Confirmation' : 'Update Post Confirmation'}}</h2>
   <table class="confirm-table">
     <tr>
       <td class="sub-ttl">Title</td>
@@ -14,13 +15,13 @@
       <td class="sub-ttl">Status</td>
       <td>
         {{isChecked}}
-        <!-- <mat-slide-toggle [checked]="isChecked"></mat-slide-toggle> -->
       </td>
     </tr>
   </table>
   <div class="button-group">
-    <button mat-flat-button *ngIf="!postData.postId" (click)="createPost()" color="primary">Create</button>
-    <button mat-flat-button *ngIf="postData.postId" (click)="createPost()" color="primary">Update</button>
+    <!-- <button mat-flat-button *ngIf="!postData.postId" (click)="createPost()" color="primary">Create</button>
+    <button mat-flat-button *ngIf="postData.postId" (click)="createPost()" color="primary">Update</button> -->
+    <button mat-flat-button (click)="onSubmit()" color="primary">{{type == 'add'? 'Create' : 'Update'}}</button>
     <button mat-stroked-button (click)="goBackPostCreate()" color="warn">Cancel</button>
   </div>
 </div>

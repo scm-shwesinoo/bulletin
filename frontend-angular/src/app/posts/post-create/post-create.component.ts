@@ -2,10 +2,10 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PostService } from 'src/app/services/post.service';
 
 //services
 import { SharingDataService } from 'src/app/services/sharing-data.service';
+import { PostService } from 'src/app/services/post.service';
 
 @Component({
   selector: 'app-post-create',
@@ -62,7 +62,6 @@ export class PostCreateComponent implements OnInit {
   getPostData() {
     const data = this.shareDataSvc.getPostData();
     this.postDetail = data;
-    console.log(this.postDetail, '====get post detail====');
 
     if (this.postDetail) {
       if (this.postDetail.status === true) {

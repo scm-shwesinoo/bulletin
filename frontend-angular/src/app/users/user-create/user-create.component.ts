@@ -16,20 +16,20 @@ import { MustMatch } from 'src/app/validators/must-match.validator';
 export class UserCreateComponent implements OnInit {
 
   // userForm!: FormGroup;
-  value!: number;
-  label!: string;
+  // value!: number;
+  // label!: string;
   // typeOption = [
   //   { value: 0, label: 'Admin' },
   //   { value: 1, label: 'User' }
   // ];
   // file!: File;
   // profileUrl: any;
-  profileImg: any;
+  // profileImg: any;
   // userId: number = 0;
   // userDetail: any;
-  existingUser: any;
-  isEditUser: boolean = true;
-  chooseImage: boolean = false;
+  // existingUser: any;
+  // isEditUser: boolean = true;
+  // chooseImage: boolean = false;
 
   constructor(
     private fb: FormBuilder,

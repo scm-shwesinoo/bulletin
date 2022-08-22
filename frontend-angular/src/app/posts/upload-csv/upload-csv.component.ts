@@ -37,29 +37,14 @@ export class UploadCsvComponent implements OnInit {
     private dialogRef: MatDialogRef<UploadCsvComponent>) { }
 
   @ViewChild('csvReader') csvReader: any;
-  
+
   ngOnInit(): void {
     this.loginId = localStorage.getItem('id');
     this.authSvc.id.next(this.loginId);
     this.authSvc.id.subscribe((data: string | null) => {
       this.loginId = data;
     });
-
-    // this.userInfo = JSON.parse(localStorage.getItem('userInfo') || "[]");
-    // this.getPostList();
   }
-
-  // getPostList() {
-  //   this.postSvc.geAllPost().subscribe({
-  //     next: result => {
-  //       this.postList = result;
-  //     },
-  //     error: err => {
-  //       console.log('=== handle error ====')
-  //       console.log(err)
-  //     }
-  //   });
-  // }
 
   uploadListener($event: any): void {
     let files = $event.srcElement.files;
@@ -76,8 +61,6 @@ export class UploadCsvComponent implements OnInit {
         this.records = this.getDataRecordsArrayFromCSVFile(csvRecordsArray, headersRow.length);
 
         this.records.map((result: any) => {
-          // this.title.push(result.title);
-          // this.description.push(result.description);
           let res = {
             "title": result.title,
             "description": result.description,
@@ -90,19 +73,12 @@ export class UploadCsvComponent implements OnInit {
           "data": this.data
         }
 
-        
-        console.log('====csv data===');
-        console.log(this.csvData);
-
-
         this.postSvc.createCSV(this.csvData).subscribe({
           next: res => {
-            console.log(res, '===res');
             if (res.data === 'success') {
               this.snackBar.open('Post Created Successfully!', '', { duration: 3000 });
             } else {
               res.map((res: any) => {
-                console.log(res.title.title);
                 this.duplicateTitle.push(res.title.title);
               })
               this.dialog.open(PlainModalComponent, {
@@ -112,113 +88,11 @@ export class UploadCsvComponent implements OnInit {
                   applyText: 'Ok'
                 }
               })
-              console.log(res[0].title.title, 'title0');
-              console.log(res[1].title.title, 'title1');
-              console.log(res[2].title.title, 'title2');
 
               this.snackBar.open('Post Created errr!', '', { duration: 3000 });
             }
-            // this.snackBar.open('Post Created Successfully!', '', { duration: 3000 });
           }
         });
-
-        //check duplicate title
-        // let csvTitle = this.records.map((rTitle: any) => { return rTitle.title });
-        // this.duplicateTitle = this.postList.filter((item: any) => csvTitle.includes(item.title));
-        //alert(this.duplicateTitle.length);
-
-        // if (this.duplicateTitle.length > 0) {
-        //   const csvTitle = this.duplicateTitle.map((item: any) => item.title)
-        //   this.dialog.open(PlainModalComponent, {
-        //     data: {
-        //       content: `${csvTitle} already exists in the post list!`,
-        //       note: '',
-        //       applyText: 'Ok'
-        //     }
-        //   })
-        // } else {
-
-        // Start
-        // this.records.map((result: any) => {
-        //   console.log(result);
-        //   let csvData = {
-        //     "data": {
-        //       "title": result.title,
-        //       "description": result.description,
-        //       "status": true,
-        //       "user": [parseInt(this.loginId)]
-        //     }
-        //   };
-        //   console.log(csvData);
-        //   this.postSvc.createCSV(csvData).subscribe({
-        //     next: res => {
-        //       this.snackBar.open('Post Created Successfully!', '', { duration: 3000 });
-        //     },
-        //     error: err => {
-        //       this.dialog.open(PlainModalComponent, {
-        //         data: {
-        //           content: `Post title already exists in the post list!`,
-        //           note: '',
-        //           applyText: 'Ok'
-        //         }
-        //       })
-        //       console.log('========Error========');
-        //       console.log(err);
-        //     }
-        //   });
-
-
-        //   // this.postSvc.createPost(uploadData).subscribe({
-        //   //   next: result => {
-        //   //   }
-        //   // });
-        // })
-        // End
-        // data: [
-        //   {
-        //     "title": result.title,
-        //     "description": result.description,
-        //     "status": true,
-        //     "user": [parseInt(this.loginId)]
-        //   }, 
-        //   {
-        //     "title": result.title,
-        //     "description": result.description,
-        //     "status": true,
-        //     "user": [parseInt(this.loginId)]
-        //   }
-        // ]
-
-
-        // this.records.map((result: any) => {
-        //   let data = {
-        //     "data": {
-        //       "title": result.title,
-        //       "description": result.description,
-        //       "status": true,
-        //       "user": [parseInt(this.loginId)]
-        //     }
-        //   };
-        //   console.log(data);
-        //   this.postSvc.createCSV(data).subscribe({
-        //     next: res => {
-        //       console.log(res, '-----------')
-        //       this.snackBar.open('Post Created Successfully!', '', { duration: 3000 });
-        //     },
-        //     error: err => {
-        //       console.log('========Error========');
-        //       console.log(err);
-        //     }
-        //   });
-
-
-        //   // this.postSvc.createPost(uploadData).subscribe({
-        //   //   next: result => {
-        //   //   }
-        //   // });
-        // })
-
-
         this.dialogRef.close();
       };
 

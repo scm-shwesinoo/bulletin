@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 // validator
 import { MustMatch } from 'src/app/validators/must-match.validator';
@@ -28,7 +29,7 @@ export class UserFormComponent implements OnInit {
   profileUrl: any;
   file!: File;
   chooseImage: boolean = false;
-  apiUrl: string = 'http://localhost:1337';
+  apiUrl = environment.imageURL;
   imageUrl: any;
   email: any;
 

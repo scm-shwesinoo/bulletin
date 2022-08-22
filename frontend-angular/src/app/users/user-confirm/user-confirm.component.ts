@@ -20,7 +20,6 @@ export class UserConfirmComponent implements OnInit {
   userList: any = [];
   userListDetail: any;
   profileUrl: any;
-  // public userInfo: any;
   createdUser: any;
   role: any;
   userRole: any = [];

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
@@ -9,6 +9,23 @@ import { MustMatch } from 'src/app/validators/must-match.validator';
 // service
 import { SharingDataService } from 'src/app/services/sharing-data.service';
 import { UsersService } from 'src/app/services/users.service';
+
+//interface
+import { User } from 'src/app/interfaces/interface';
+
+interface UserFormGroup extends FormGroup{
+  value: User;
+  controls: {
+    name: AbstractControl,
+    email: AbstractControl,
+    password: AbstractControl,
+    confirmPwd: AbstractControl,
+    type: AbstractControl,
+    phone: AbstractControl,
+    dob: AbstractControl,
+    address: AbstractControl
+  }
+}
 
 @Component({
   selector: 'app-user-form',
@@ -26,12 +43,12 @@ export class UserFormComponent implements OnInit {
   userForm!: FormGroup;
   userId: number = 0;
   userDetail: any;
-  profileUrl: any;
+  profileUrl!: string;
   file!: File;
   chooseImage: boolean = false;
   apiUrl = environment.imageURL;
-  imageUrl: any;
-  email: any;
+  imageUrl!: string;
+  email!: string;
 
   @Input() formType = 'add' || 'edit';
   constructor(
@@ -59,7 +76,7 @@ export class UserFormComponent implements OnInit {
     },
       {
         validator: MustMatch('password', 'confirmPwd')
-      });
+      }) as UserFormGroup;
 
     this.userId = this.activatedRoute.snapshot.params['id'];
 
@@ -86,7 +103,7 @@ export class UserFormComponent implements OnInit {
     } else {
       if (this.userId) {
         this.userSvc.getEachUser(this.userId).subscribe({
-          next: (user: any) => {
+          next: user => {
             console.log(user);
             this.chooseImage = true;
             this.email = user.user.email;
@@ -127,7 +144,7 @@ export class UserFormComponent implements OnInit {
 
   onSelectFile(e: any) {
     this.chooseImage = true;
-    this.imageUrl = null;
+    this.imageUrl = '';
     if (e.target.files) {
       var reader = new FileReader();
       reader.readAsDataURL(e.target.files[0]);
@@ -135,7 +152,7 @@ export class UserFormComponent implements OnInit {
       console.log('file===');
       console.log(this.file);
       reader.onload = (event: any) => {
-        this.imageUrl = null;
+        this.imageUrl = '';
         this.profileUrl = event.target.result;
         console.log('profileUrl===');
         console.log(this.profileUrl);
@@ -167,7 +184,7 @@ export class UserFormComponent implements OnInit {
   }
 
   clearData() {
-    this.profileUrl = null;
+    this.profileUrl = '';
     this.userForm.reset();
   }
 }

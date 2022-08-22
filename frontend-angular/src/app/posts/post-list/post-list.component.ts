@@ -69,7 +69,7 @@ export class PostListComponent implements OnInit {
   getEachPost() {
     this.postId = localStorage.getItem('id');
     this.authSvc.id.next(this.postId);
-    this.authSvc.id.subscribe((data: string | null) => {
+    this.authSvc.id.subscribe((data: number | null) => {
       this.postId = data;
     });
     this.postSvc.getPostDetail(this.postId).subscribe({

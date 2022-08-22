@@ -19,9 +19,8 @@ import { MustMatch } from 'src/app/validators/must-match.validator';
 export class PasswordChangeComponent implements OnInit {
 
   public passwordForm!: FormGroup;
-
-  userEmail: any;
-  role: any;
+  userEmail!: string;
+  role!: string;
 
   constructor(
     private fb: FormBuilder,
@@ -43,10 +42,10 @@ export class PasswordChangeComponent implements OnInit {
 
     this.userEmail = this.shareDataSvc.getUserEmail();
     console.log('useremail', this.userEmail);
-    this.role = localStorage.getItem('role');
+    this.role = localStorage.getItem('role') || '';
     this.authSvc.role.next(this.role);
     this.authSvc.role.subscribe((data: string | null) => {
-      this.role = data;
+      this.role = data || '';
     });
   }
 
@@ -60,11 +59,9 @@ export class PasswordChangeComponent implements OnInit {
       "password": this.passwordForm.value.oldPassword,
       "newPassword": this.passwordForm.value.newPassword
     }
-    console.log(data.newPassword);
 
     this.usersSvc.changePassword(data).subscribe({
       next: res => {
-        console.log(res);
         console.log("Password Change");
         if (res.data === 'success') {
           this.snackBar.open('Password change Successfully!', '', { duration: 3000 });

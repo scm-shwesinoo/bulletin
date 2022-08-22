@@ -38,7 +38,7 @@ export class UploadCsvComponent implements OnInit {
   ngOnInit(): void {
     this.loginId = localStorage.getItem('id');
     this.authSvc.id.next(this.loginId);
-    this.authSvc.id.subscribe((data: string | null) => {
+    this.authSvc.id.subscribe((data: number | null) => {
       this.loginId = data;
     });
   }

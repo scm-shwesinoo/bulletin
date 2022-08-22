@@ -13,12 +13,12 @@ export class AuthService {
   public role$ = this.role.asObservable();
   public name = new BehaviorSubject<string | null>(null);
   public name$ = this.role.asObservable();
-  public id = new BehaviorSubject<string | null>(null);
+  public id = new BehaviorSubject<number | null>(null);
   public id$ = this.role.asObservable();
 
   constructor(private http: HttpClient) {
     this.role.next(String(localStorage.getItem('role')));
-    this.id.next(String(localStorage.getItem('id')));
+    this.id.next(Number(localStorage.getItem('id')));
     this.name.next(String(localStorage.getItem('name')));
   }
 

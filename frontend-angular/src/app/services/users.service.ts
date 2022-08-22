@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import * as qs from 'qs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,8 @@ export class UsersService {
 
   apiUrl = environment.apiURL;
 
-   token = localStorage.getItem('token');
-   headers = new HttpHeaders()
+  token = localStorage.getItem('token');
+  headers = new HttpHeaders()
     .set('content-type', 'application/json')
     .set('Authorization', `Bearer ${this.token}`);
 
@@ -61,8 +62,13 @@ export class UsersService {
     return this.http.get(url, { 'headers': this.headers });
   }
 
-  getUser(): Observable<any> {
-    const url = this.apiUrl + '/users';
+  getUser(userID: number): Observable<any> {
+    const query = qs.stringify({
+      populate: '*'
+    }, {
+      encodeValuesOnly: true,
+    });
+    const url = this.apiUrl + `/users/${userID}/?${query}`;
     return this.http.get(url, { 'headers': this.headers });
   }
   // no need

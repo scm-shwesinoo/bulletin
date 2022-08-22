@@ -99,7 +99,7 @@ export class PostConfirmComponent implements OnInit {
   }
 
   createPost() {
-    this.authSvc.id.subscribe((data: string | null) => {
+    this.authSvc.id.subscribe((data: number | null) => {
       this.loginId = data;
     });
     const data = {
@@ -131,7 +131,7 @@ export class PostConfirmComponent implements OnInit {
   }
 
   updatePost() {
-    this.authSvc.id.subscribe((data: string | null) => {
+    this.authSvc.id.subscribe((data: number | null) => {
       this.loginId = data;
     });
     const data = {

@@ -122,26 +122,4 @@ export class PostService {
     return this.http.post(url, data, { 'headers': headers });
   }
 
-
-  // deletePost(postId: any, data: any): Observable<any> {
-  //   const url = this.apiUrl + '/posts/' + postId;
-  //   return this.http.put(url, data);
-  // }
-
-  // geAllPost(): Observable<any> {
-  //   const url = this.apiUrl + '/posts';
-  //   return this.http.get(url);
-  // }
-
-  // async getListDetail(postId: number): Promise<object> {
-  //   const url = this.apiUrl + '/posts/' + postId;
-  //   console.log(postId);
-  //   return await this.http.get(url);
-  // }
-
-  // createPost(data: any): Observable<any> {
-  //   const url = this.apiUrl + '/posts';
-  //   return this.http.post(url, data);
-  // }
-
 }

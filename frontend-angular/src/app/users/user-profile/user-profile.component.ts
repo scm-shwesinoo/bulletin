@@ -14,10 +14,8 @@ export class UserProfileComponent implements OnInit {
 
   id: any;
   userData: any = {};
-  role: any;
-  userList: any;
-  email: any;
-  userId: any;
+  email!: string;
+  userID!: number;
 
   constructor(
     private router: Router,
@@ -28,33 +26,22 @@ export class UserProfileComponent implements OnInit {
   ngOnInit(): void {
     this.id = localStorage.getItem('id');
     this.authSvc.id.next(this.id);
-    this.authSvc.id.subscribe((data: string | null) => {
+    this.authSvc.id.subscribe((data: number | null) => {
       this.id = data;
     });
-    this.role = localStorage.getItem('role');
-    this.authSvc.role.next(this.role);
-    this.authSvc.role.subscribe((data: string | null) => {
-      this.role = data;
-    });
-    this.getUserList();
+    this.getEachUser();
   }
 
-  getUserList() {
-    this.userSvc.getAllUser().subscribe({
+  getEachUser() {
+    this.userSvc.getUser(this.id).subscribe({
       next: result => {
-        this.userList = result;
-        const user = this.userList.filter((item: any) => this.id == item.user.id);
-        this.userData = user;
-        this.userId = this.userData[0]?.id;
-      },
-      error: err => {
-        console.log('=== handle error ====')
-        console.log(err)
+        this.userData = result;
+        this.userID = this.userData.employee.id;
       }
-    });
+    })
   }
 
   editProfile() {
-    this.router.navigate(['/user/' + this.userId]);
+    this.router.navigate(['/user/' + this.userID]);
   }
 }

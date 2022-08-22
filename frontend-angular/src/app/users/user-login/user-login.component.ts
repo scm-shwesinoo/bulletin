@@ -18,7 +18,6 @@ export class UserLoginComponent implements OnInit {
 
   loginForm!: FormGroup;
   userList!: [];
-  public role: any;
 
   constructor(
     private fb: FormBuilder,

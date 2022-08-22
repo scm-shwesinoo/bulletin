@@ -46,8 +46,8 @@ module.exports = createCoreService('api::employee.employee', ({ strapi }) => ({
                 profile: ctx.request.body.data.profile,
                 type: ctx.request.body.data.type,
                 phone: ctx.request.body.data.phone,
-                address: ctx.request.body.data.address,
-                dob: ctx.request.body.data.dob,
+                address: ctx.request.body.data.address || '-',
+                dob: ctx.request.body.data.dob || '-',
                 createdUser: ctx.request.body.data.createdUser
             }
         })
@@ -85,8 +85,8 @@ module.exports = createCoreService('api::employee.employee', ({ strapi }) => ({
                     profile: ctx.request.body.data.profile,
                     type: ctx.request.body.data.type,
                     phone: ctx.request.body.data.phone,
-                    address: ctx.request.body.data.address,
-                    dob: ctx.request.body.data.dob,
+                    address: ctx.request.body.data.address || '-',
+                    dob: ctx.request.body.data.dob || '-',
                     updated_user_id: ctx.request.body.data.updated_user_id
                 }
             });

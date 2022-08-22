@@ -1,4 +1,4 @@
 export class CSVRecord {
-  public title: any;
-  public description: any;
+  public title!: string;
+  public description!: string;
 }   

@@ -25,7 +25,6 @@ import { UploadCsvComponent } from './posts/upload-csv/upload-csv.component';
 import { UserCreateComponent } from './users/user-create/user-create.component';
 import { UserConfirmComponent } from './users/user-confirm/user-confirm.component';
 import { UserUpdateComponent } from './users/user-update/user-update.component';
-import { UserUpdateConfirmComponent } from './users/user-update-confirm/user-update-confirm.component';
 import { UserFormComponent } from './users/user-form/user-form.component';
 
 //pipes
@@ -53,7 +52,6 @@ import { PostModalComponent } from './components/post-modal/post-modal.component
     UserCreateComponent,
     UserConfirmComponent,
     UserUpdateComponent,
-    UserUpdateConfirmComponent,
     UserFormComponent,
     PasswordPipe,
     PostModalComponent,

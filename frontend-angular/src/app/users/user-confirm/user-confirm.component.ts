@@ -19,15 +19,14 @@ export class UserConfirmComponent implements OnInit {
   userData: any;
   userList: any = [];
   userListDetail: any;
-  profileUrl: any;
-  createdUser: any;
-  role: any;
+  profileUrl!: string;
+  createdUser!: string;
+  roleID!: number;
   userRole: any = [];
-  loginRole: any;
-  loginId: any;
-  userId: any;
-  test: any;
-  formType: any;
+  loginRole!: string;
+  loginID!: any;
+  userID!: number;
+  formType!: string;
 
   constructor(
     private router: Router,
@@ -39,25 +38,25 @@ export class UserConfirmComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.createdUser = localStorage.getItem('username');
+    this.createdUser = localStorage.getItem('username') || '';
     this.authSvc.name.next(this.createdUser);
     this.authSvc.name.subscribe((data: string | null) => {
-      this.createdUser = data;
+      this.createdUser = data || '';
     });
-    this.loginId = localStorage.getItem('id');
-    this.authSvc.id.next(this.loginId);
-    this.authSvc.id.subscribe((data: string | null) => {
-      this.loginId = data;
+    this.loginID = localStorage.getItem('id');
+    this.authSvc.id.next(this.loginID);
+    this.authSvc.id.subscribe((data: number | null) => {
+      this.loginID = data;
     });
-    this.loginRole = localStorage.getItem('role');
+    this.loginRole = localStorage.getItem('role') || '';
     this.authSvc.role.next(this.loginRole);
     this.authSvc.role.subscribe((data: string | null) => {
-      this.loginRole = data;
+      this.loginRole = data || '';
     });
+
     this.userData = this.shareDataSvc.getUserData();
     this.showAlert();
-
-    this.userId = this.userData.userId;
+    this.userID = this.userData.userId;
     this.formType = this.userData.formType;
     this.getUserList();
     this.getRole();
@@ -77,11 +76,11 @@ export class UserConfirmComponent implements OnInit {
       next: result => {
         this.userRole.push(result);
         if (this.userData.type == 0) {
-          this.test = this.userRole.map((result: any) => result.roles.filter((item: any) => item.name == 'Authenticated'));
-          this.role = this.test[0][0].id;
+          let data = this.userRole.map((result: any) => result.roles.filter((item: any) => item.name == 'Authenticated'));
+          this.roleID = data[0][0].id;
         } else {
-          this.test = this.userRole.map((result: any) => result.roles.filter((item: any) => item.name == 'User'));
-          this.role = this.test[0][0].id;
+          let data = this.userRole.map((result: any) => result.roles.filter((item: any) => item.name == 'User'));
+          this.roleID = data[0][0].id;
         }
       },
       error: err => {
@@ -104,8 +103,8 @@ export class UserConfirmComponent implements OnInit {
   }
 
   getEachUserData() {
-    if (this.userId) {
-      this.userSvc.getEachUser(this.userId).subscribe({
+    if (this.userID) {
+      this.userSvc.getEachUser(this.userID).subscribe({
         next: result => {
           this.userListDetail = result;
         },
@@ -150,7 +149,7 @@ export class UserConfirmComponent implements OnInit {
               "address": this.userData.address,
               "profile": this.profileUrl,
               "createdUser": this.createdUser,
-              "role": this.role
+              "role": this.roleID
             }
           };
           this.userSvc.createUser(data).subscribe({
@@ -180,8 +179,8 @@ export class UserConfirmComponent implements OnInit {
           "dob": this.userData.dob,
           "address": this.userData.address,
           "profile": this.userData.oldProfile,
-          "updated_user_id": this.loginId,
-          "role": this.role
+          "updated_user_id": this.loginID,
+          "role": this.roleID
         }
       };
       this.update(data);
@@ -198,8 +197,8 @@ export class UserConfirmComponent implements OnInit {
               "dob": this.userData.dob,
               "address": this.userData.address,
               "profile": this.profileUrl,
-              "updated_user_id": this.loginId,
-              "role": this.role
+              "updated_user_id": this.loginID,
+              "role": this.roleID
             }
           };
           this.update(data);
@@ -209,28 +208,39 @@ export class UserConfirmComponent implements OnInit {
   }
 
   update(data: any) {
-    this.userSvc.updateUser(data, this.userId).subscribe({
-      next: res => {
-        this.shareDataSvc.setUserData(null);
-        this.snackBar.open('User Updated Successfully!', '', { duration: 3000 });
-        if (this.loginRole == 'authenticated') {
-          this.router.navigate(['/user-list']);
-        } else {
-          this.router.navigate(['/user-profile']);
+    const duplicateUser = this.userList.filter((item: any) => item.user.email === this.userData.email && item.id != this.userID);
+    if (duplicateUser.length > 0) {
+      this.dialog.open(PlainModalComponent, {
+        data: {
+          content: `User with ${this.userData.email} already exists !`,
+          note: '',
+          applyText: 'Ok'
         }
-      },
-      error: err => {
-        console.log('=== handle error ====')
-        console.log(err)
-      }
-    })
+      });
+    } else {
+      this.userSvc.updateUser(data, this.userID).subscribe({
+        next: res => {
+          this.shareDataSvc.setUserData(null);
+          this.snackBar.open('User Updated Successfully!', '', { duration: 3000 });
+          if (this.loginRole == 'authenticated') {
+            this.router.navigate(['/user-list']);
+          } else {
+            this.router.navigate(['/user-profile']);
+          }
+        },
+        error: err => {
+          console.log('=== handle error ====')
+          console.log(err)
+        }
+      })
+    }
   }
 
   goBackUserCreate() {
     if (this.formType == 'add') {
       this.router.navigate(['/user']);
     } else {
-      this.router.navigate(['/user/' + this.userId]);
+      this.router.navigate(['/user/' + this.userID]);
     }
   }
 }

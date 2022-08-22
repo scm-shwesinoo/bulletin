@@ -3,27 +3,27 @@
   <table class="user-table">
     <tr>
       <td class="label">Name</td>
-      <td>{{userData[0]?.user?.username}}</td>
+      <td>{{userData?.username}}</td>
     </tr>
     <tr>
       <td class="label">Email Address</td>
-      <td>{{userData[0]?.user?.email}}</td>
+      <td>{{userData?.email}}</td>
     </tr>
     <tr>
       <td class="label">Type</td>
-      <td>{{userData[0]?.type? 'User': 'Admin'}}</td>
+      <td>{{userData?.employee?.type? 'User': 'Admin'}}</td>
     </tr>
     <tr>
       <td class="label">Phone</td>
-      <td>{{userData[0]?.phone}}</td>
+      <td>{{userData?.employee?.phone}}</td>
     </tr>
     <tr>
       <td class="label">Date Of Birth</td>
-      <td>{{userData[0]?.dob | date: 'shortDate'}}</td>
+      <td>{{userData?.employee?.dob | date: 'shortDate'}}</td>
     </tr>
     <tr>
       <td class="label">Address</td>
-      <td>{{userData[0]?.address}}</td>
+      <td>{{userData?.employee?.address}}</td>
     </tr>
     <tr>
       <td class="change-btn" colspan="2">

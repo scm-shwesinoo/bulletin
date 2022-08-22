@@ -56,7 +56,7 @@
       <!-- Profile Column -->
       <ng-container matColumnDef="profile">
         <th mat-header-cell *matHeaderCellDef> Profile </th>
-        <td mat-cell *matCellDef="let user" class="profile"> 
+        <td mat-cell *matCellDef="let user" class="profile">
           <img src="{{apiUrl+user.profile}}" alt="User Profile">
         </td>
 
@@ -66,9 +66,7 @@
       <!-- Created User Column -->
       <ng-container matColumnDef="created_user_id">
         <th mat-header-cell *matHeaderCellDef> Created User </th>
-        <!-- <td mat-cell *matCellDef="let user"> {{user?.createdBy?.firstname ? user?.createdBy?.firstname : 'test'}} </td> -->
         <td mat-cell *matCellDef="let user"> {{user.createdUser || 'test'}} </td>
-        <!-- <td mat-cell *matCellDef="let user"> {{user?.createdUser ? user?createdUser : 'test'}} </td> -->
       </ng-container>
 
       <!-- Phone Column -->

@@ -21,17 +21,13 @@ import { ListModalComponent } from 'src/app/components/list-modal/list-modal.com
 export class UserListComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'email', 'profile', 'created_user_id', 'phone', 'dob', 'address', 'created_at', 'updated_at', 'action'];
-  apiUrl = environment.imageURL;
-  userList: any = [];
-  orgList: any = [];
-  eachUser: any;
   dataSource!: MatTableDataSource<any>;
-  userInfo: any;
+  apiUrl = environment.imageURL;
+  orgList: any = [];
   nameFilter: any;
   emailFilter: any;
   fromDate: any;
   toDate: any;
-  ////
   loginUser: any;
 
   constructor(
@@ -45,12 +41,8 @@ export class UserListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   ngOnInit(): void {
     this.getAllUserData();
-    console.log('===user data==='); 
+    console.log('===user data===');
     this.loginUser = localStorage.getItem('username');
-    // this.authSvc.role.next(this.loginUser);
-    // this.authSvc.role.subscribe((data: string | null) => {
-    //   this.loginUser= data;
-    // });
   }
 
   getAllUserData() {
@@ -100,38 +92,6 @@ export class UserListComponent implements OnInit {
         }
       })
     }
-    // this.usersSvc.getUserDetail(userId).subscribe({
-    //   next: data => {
-    //     this.eachUser = data;
-    //     const param = {
-    //       id: userId,
-    //       name: this.eachUser.name,
-    //       email: this.eachUser.email,
-    //       password: this.eachUser.password,
-    //       type: this.eachUser.type,
-    //       phone: this.eachUser.phone,
-    //       address: this.eachUser.address,
-    //       dob: this.eachUser.dob,
-    //       created_user_id: this.eachUser.created_user_id,
-    //       updated_user_id: this.eachUser.updated_user_id,
-    //       deleted_user_id: this.userInfo.id,
-    //       created_at: this.eachUser.created_at,
-    //       updated_at: this.eachUser.updated_at,
-    //       deleted_at: new Date(),
-    //       is_removed: true
-    //     };
-    //     this.usersSvc.deleteUser(userId, param).subscribe({
-    //       next: data => {
-    //         this.snackBar.open('User Deleted Successfully!', '', { duration: 3000 });
-    //         this.getAllUserData();
-    //       },
-    //       error: err => {
-    //         console.log('=== handle error ===');
-    //         console.log(err);
-    //       }
-    //     })
-    //   }
-    // });
   }
 
   onSearch() {

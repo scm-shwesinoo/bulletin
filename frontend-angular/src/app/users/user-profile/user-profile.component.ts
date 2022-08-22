@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 // service
 import { AuthService } from 'src/app/services/auth.service';
 import { UsersService } from 'src/app/services/users.service';
-import { SharingDataService } from 'src/app/services/sharing-data.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -12,20 +11,18 @@ import { SharingDataService } from 'src/app/services/sharing-data.service';
   styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent implements OnInit {
+
   id: any;
-  // user: any;
   userData: any = {};
   role: any;
   userList: any;
   email: any;
-  apiUrl: string = 'http://localhost:1337';
   userId: any;
 
   constructor(
     private router: Router,
     private userSvc: UsersService,
-    private authSvc: AuthService,
-    private shareDataSvc: SharingDataService
+    private authSvc: AuthService
   ) { }
 
   ngOnInit(): void {

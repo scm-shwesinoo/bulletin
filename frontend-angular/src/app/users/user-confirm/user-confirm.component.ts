@@ -24,9 +24,9 @@ export class UserConfirmComponent implements OnInit {
   role: any;
   userRole: any = [];
   loginRole: any;
-  test: any;
   loginId: any;
   userId: any;
+  test: any;
   formType: any;
 
   constructor(
@@ -56,15 +56,12 @@ export class UserConfirmComponent implements OnInit {
     });
     this.userData = this.shareDataSvc.getUserData();
     this.showAlert();
+
     this.userId = this.userData.userId;
     this.formType = this.userData.formType;
-    console.log('formType', this.formType);
     this.getUserList();
     this.getRole();
     this.getEachUserData();
-    console.log('formType', this.formType);
-    console.log('type', this.userData.type)
-    console.log('role', this.loginRole)
   }
 
   showAlert() {
@@ -98,8 +95,6 @@ export class UserConfirmComponent implements OnInit {
     this.userSvc.getAllUser().subscribe({
       next: result => {
         this.userList = result;
-        console.log('====user list====');;
-        console.log(this.userList);
       },
       error: err => {
         console.log('=== handle error ====')
@@ -113,8 +108,6 @@ export class UserConfirmComponent implements OnInit {
       this.userSvc.getEachUser(this.userId).subscribe({
         next: result => {
           this.userListDetail = result;
-          console.log('detail')
-          console.log(this.userListDetail);
         },
         error: err => {
           console.log('=== handle error ===');
@@ -174,44 +167,6 @@ export class UserConfirmComponent implements OnInit {
         }
       })
     }
-    // const duplicateUser = this.userList.filter((item: any) => item.email === this.userData.email);
-    // if (duplicateUser.length > 0) {
-    //   this.dialog.open(PlainModalComponent, {
-    //     data: {
-    //       content: ` User with ${this.userData.email} already exists !`,
-    //       note: '',
-    //       applyText: 'Ok'
-    //     }
-    //   });
-    // } else {
-    //   const data = {
-    //     name: this.userData.name,
-    //     email: this.userData.email,
-    //     password: this.userData.password,
-    //     type: this.userData.type,
-    //     phone: this.userData.phone,
-    //     address: this.userData.address,
-    //     dob: this.userData.dob,
-    //     created_user_id: this.userInfo.id,
-    //     updated_user_id: this.userInfo.id,
-    //     deleted_user_id: this.userInfo.id,
-    //     created_at: new Date(),
-    //     updated_at: new Date(),
-    //     deleted_at: '',
-    //     is_removed: false
-    //   };
-    //   this.userSvc.createUser(data).subscribe({
-    //     next: result => {
-    //       this.shareDataSvc.setUserData(null);
-    //     },
-    //     error: err => {
-    //       console.log('=== handle error ====')
-    //       console.log(err)
-    //     }
-    //   });
-    //   this.snackBar.open('User Created Successfully!', '', { duration: 3000 });
-    //   this.router.navigate(['/user-list']);
-    // }
   }
 
   updateUser() {

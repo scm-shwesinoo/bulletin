@@ -1,15 +1,13 @@
-import { ViewChild, Component, OnInit, AfterViewInit } from '@angular/core';
+import { ViewChild, Component, OnInit } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { PostModalComponent } from 'src/app/components/post-modal/post-modal.component';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 //services
 import { AuthService } from 'src/app/services/auth.service';
 import { PostService } from 'src/app/services/post.service';
-import { UsersService } from 'src/app/services/users.service';
 
 //pages
 import { UploadCsvComponent } from '../upload-csv/upload-csv.component';
@@ -22,16 +20,10 @@ import { UploadCsvComponent } from '../upload-csv/upload-csv.component';
 
 export class PostListComponent implements OnInit {
 
-  public postDetail: any = [];
-  public allPost: any = [];
-  public eachPost: any = [];
-  public eachData: any = [];
   public role: any = [];
-  public postListDetail: any = [];
   public postId: any;
   public posts: any = [];
   public searchText: string = '';
-  public user: any;
 
   dataSource!: MatTableDataSource<any>;
   displayedColumns: string[] = ['title', 'description', 'username', 'created_at', 'action'];
@@ -40,11 +32,8 @@ export class PostListComponent implements OnInit {
 
   constructor(
     private postSvc: PostService,
-    private userSvc: UsersService,
     private router: Router,
     public dialog: MatDialog,
-    private snackBar: MatSnackBar,
-    private route: ActivatedRoute,
     private authSvc: AuthService) { }
 
   ngOnInit(): void {
@@ -145,7 +134,6 @@ export class PostListComponent implements OnInit {
             title: res.data.attributes.title,
             description: res.data.attributes.description,
             created_user_id: res.data.attributes.user.data.id,
-            // // updated_user_id: res.updated_user_id,
             created_at: res.data.attributes.createdAt
           }
         });

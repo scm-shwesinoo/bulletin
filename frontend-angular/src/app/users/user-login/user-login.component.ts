@@ -22,21 +22,12 @@ export class UserLoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    // private usersSvc: UsersService,
-    // private postSvc: PostService,
     private authSvc: AuthService,
     private router: Router,
     public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
-    // this.loginForm = this.fb.group({
-    //   identifier: new FormControl('', Validators.compose([
-    //     Validators.required,
-    //     Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
-    //   ])),
-    //   password: new FormControl('', [Validators.required])
-    // });
     this.loginForm = this.fb.group({
       email: new FormControl('', Validators.compose([
         Validators.required,
@@ -50,38 +41,13 @@ export class UserLoginComponent implements OnInit {
     return this.loginForm.controls;
   }
 
-  // login(data: any) {
-  //   this.usersSvc.getUser().subscribe(res => {
-  //     const user = res.find((a: any) => {
-  //       return a.email === this.loginForm.value.email && a.password === this.loginForm.value.password;
-  //     });
-  //     if (user) {
-  //       if (user.type === 0) {
-  //         this.router.navigate(["/post-list"]);
-  //       } else if (user.type === 1) {
-  //         this.router.navigate(["/post-list"]);
-  //       }
-  //       localStorage.setItem("userInfo", JSON.stringify(user));
-  //     } else {
-  //       this.router.navigate(["/post-list"]);
-  //       this.dialog.open(PlainModalComponent, {
-  //         data: {
-  //           content: `Email or password is incorrect...`,
-  //           note: '',
-  //           applyText: 'Ok'
-  //         }
-  //       });
-  //     }
-  //   });
-  // }
-
   onSubmit() {
     const data = {
       "identifier": this.loginForm.value.email,
       "password": this.loginForm.value.password
     }
     console.log('login data', data);
-    
+
     this.authSvc.login(data).subscribe({
       next: async res => {
         const token = res.jwt;

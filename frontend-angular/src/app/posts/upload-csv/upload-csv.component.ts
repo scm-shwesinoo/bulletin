@@ -11,7 +11,6 @@ import { CSVRecord } from 'src/app/interfaces/CSVModel';
 
 //services
 import { PostService } from 'src/app/services/post.service';
-import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -21,19 +20,17 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class UploadCsvComponent implements OnInit {
 
-  public userInfo: any;
   public records: any = [];
-  public postList: any = [];
   public duplicateTitle: any = [];
   public loginId: any;
   public csvData: any;
   public data: any = [];
+
   constructor(
     private postSvc: PostService,
     private authSvc: AuthService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
-    private router: Router,
     private dialogRef: MatDialogRef<UploadCsvComponent>) { }
 
   @ViewChild('csvReader') csvReader: any;

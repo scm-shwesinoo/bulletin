@@ -1,42 +1,34 @@
-  <div class="container">
-    <h2>User Profile</h2>
-    <table class="user-table">
-      <!-- <tr>
-        <td > Profile </td>
-        <td class="profile"> 
-          <img src="{{apiUrl+userData.profile}}" alt="User Profile">
-        </td>
-      </tr> -->
-      <tr>       
-        <td class="label">Name</td>
-        <td>{{userData[0]?.user?.username}}</td>
-      </tr>
-      <tr>
-        <td class="label">Email Address</td>
-        <td>{{userData[0]?.user?.email}}</td>
-      </tr>
-      <tr>
-        <td class="label">Type</td>
-        <td>{{userData[0]?.type? 'User': 'Admin'}}</td>
-      </tr>
-      <tr>
-        <td class="label">Phone</td>
-        <td>{{userData[0]?.phone}}</td>
-      </tr>
-      <tr>
-        <td class="label">Date Of Birth</td>
-        <td>{{userData[0]?.dob | date: 'shortDate'}}</td>
-      </tr>
-      <tr>
-        <td class="label">Address</td>
-        <td>{{userData[0]?.address}}</td>
-      </tr>
-      <!-- <tr *ngIf="role === 'user'"> -->
-        <tr>
-        <td class="change-btn" colspan="2">
-          <!-- <a [routerLink]="['/password-change']" (click)="changePassword()">Change Password</a> -->
-          <button mat-icon-button (click)="editProfile()" color="primary">Edit Profile</button>
-        </td>
-      </tr>
-    </table>
-  </div>
+<div class="container">
+  <h2>User Profile</h2>
+  <table class="user-table">
+    <tr>
+      <td class="label">Name</td>
+      <td>{{userData[0]?.user?.username}}</td>
+    </tr>
+    <tr>
+      <td class="label">Email Address</td>
+      <td>{{userData[0]?.user?.email}}</td>
+    </tr>
+    <tr>
+      <td class="label">Type</td>
+      <td>{{userData[0]?.type? 'User': 'Admin'}}</td>
+    </tr>
+    <tr>
+      <td class="label">Phone</td>
+      <td>{{userData[0]?.phone}}</td>
+    </tr>
+    <tr>
+      <td class="label">Date Of Birth</td>
+      <td>{{userData[0]?.dob | date: 'shortDate'}}</td>
+    </tr>
+    <tr>
+      <td class="label">Address</td>
+      <td>{{userData[0]?.address}}</td>
+    </tr>
+    <tr>
+      <td class="change-btn" colspan="2">
+        <button mat-icon-button (click)="editProfile()" color="primary">Edit Profile</button>
+      </td>
+    </tr>
+  </table>
+</div>

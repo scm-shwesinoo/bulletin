@@ -37,9 +37,6 @@ export class PostCreateComponent implements OnInit {
     });
 
     this.postId = this.activatedRoute.snapshot.params['id'];
-    if (this.postId) {
-      this.getEachPost();
-    }
     this.getPostData();
   }
 
@@ -74,6 +71,10 @@ export class PostCreateComponent implements OnInit {
         title: this.postDetail.title,
         description: this.postDetail.description
       });
+    } else {
+      if (this.postId) {
+        this.getEachPost();
+      }
     }
   }
 

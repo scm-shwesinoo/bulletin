@@ -14,10 +14,11 @@
     </tr>
     <tr *ngIf="formType == 'add'">
       <td class="sub-ttl">Password</td>
-      <td>{{ userData?.password | password : userData?.password }}</td>
+      <!-- <td>{{ userData?.password! | password : userData?.password! }}</td> -->
     </tr>
     <tr>
       <td class="sub-ttl">Type</td>
+      <!-- <td>{{ userData?.type === 1 ? 'User' : 'Admin' }}</td> -->
       <td>{{ userData?.type === 1 ? 'User' : 'Admin' }}</td>
     </tr>
     <tr>

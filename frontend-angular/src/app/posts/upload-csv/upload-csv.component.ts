@@ -12,6 +12,7 @@ import { CSVRecord } from 'src/app/interfaces/CSVModel';
 //services
 import { PostService } from 'src/app/services/post.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { Post } from 'src/app/interfaces/interface';
 
 @Component({
   selector: 'app-upload-csv',
@@ -22,7 +23,7 @@ export class UploadCsvComponent implements OnInit {
 
   public records: any = [];
   public duplicateTitle: any = [];
-  public loginId: any;
+  public loginId!: number;
   public csvData: any;
   public data: any = [];
 
@@ -36,10 +37,10 @@ export class UploadCsvComponent implements OnInit {
   @ViewChild('csvReader') csvReader: any;
 
   ngOnInit(): void {
-    this.loginId = localStorage.getItem('id');
-    this.authSvc.id.next(this.loginId);
+    const id = localStorage.getItem('id') || '';
+    this.authSvc.id.next(parseInt(id));
     this.authSvc.id.subscribe((data: number | null) => {
-      this.loginId = data;
+      this.loginId = data!;
     });
   }
 
@@ -57,12 +58,13 @@ export class UploadCsvComponent implements OnInit {
         let headersRow = this.getHeaderArray(csvRecordsArray);
         this.records = this.getDataRecordsArrayFromCSVFile(csvRecordsArray, headersRow.length);
 
-        this.records.map((result: any) => {
+        this.records.map((result: Post) => {
           let res = {
             "title": result.title,
             "description": result.description,
             "status": true,
-            "user": [parseInt(this.loginId)]
+            // "user": [parseInt(this.loginId)]
+            "user": [this.loginId]
           };
           this.data.push(res);
         })

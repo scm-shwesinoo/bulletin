@@ -11,6 +11,7 @@ import { PostService } from 'src/app/services/post.service';
 
 //pages
 import { UploadCsvComponent } from '../upload-csv/upload-csv.component';
+import { Post, PostFilter, PostList } from 'src/app/interfaces/interface';
 
 @Component({
   selector: 'app-post-list',
@@ -20,12 +21,13 @@ import { UploadCsvComponent } from '../upload-csv/upload-csv.component';
 
 export class PostListComponent implements OnInit {
 
-  public role: any = [];
-  public postId: any;
-  public posts: any = [];
+  public role!: string;
+  public postId!: number;
+  // public posts: PostList[] = [];
   public searchText: string = '';
+  orgList: PostFilter[] = [];
 
-  dataSource!: MatTableDataSource<any>;
+  dataSource!: MatTableDataSource<PostFilter>;
   displayedColumns: string[] = ['title', 'description', 'username', 'created_at', 'action'];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -37,10 +39,10 @@ export class PostListComponent implements OnInit {
     private authSvc: AuthService) { }
 
   ngOnInit(): void {
-    this.role = localStorage.getItem('role');
+    this.role = localStorage.getItem('role') || '';
     this.authSvc.role.next(this.role);
     this.authSvc.role.subscribe((data: string | null) => {
-      this.role = data;
+      this.role = data!;
     });
     this.postData();
   }
@@ -57,8 +59,8 @@ export class PostListComponent implements OnInit {
   //get all post for admin
   getPostData() {
     this.postSvc.getPost().subscribe({
-      next: (posts: any) => {
-        this.posts = posts.data;
+      next: posts => {
+        this.orgList = posts.data;
         this.dataSource = new MatTableDataSource(posts.data);
         this.dataSource.paginator = this.paginator;
       }
@@ -67,14 +69,14 @@ export class PostListComponent implements OnInit {
 
   //get user related post
   getEachPost() {
-    this.postId = localStorage.getItem('id');
-    this.authSvc.id.next(this.postId);
+    const id = localStorage.getItem('id') || '';
+    this.authSvc.id.next(parseInt(id));
     this.authSvc.id.subscribe((data: number | null) => {
-      this.postId = data;
+      this.postId = data!;
     });
     this.postSvc.getPostDetail(this.postId).subscribe({
-      next: (posts: any) => {
-        this.posts = posts.data;
+      next: posts => {
+        this.orgList = posts.data;
         this.dataSource = new MatTableDataSource(posts.data);
         this.dataSource.paginator = this.paginator;
       },
@@ -89,7 +91,7 @@ export class PostListComponent implements OnInit {
     this.router.navigate(['/post/' + postId])
   }
 
-  deletePost(postId: any) {
+  deletePost(postId: number) {
     const confirm = window.confirm('Are you sure want to delete?');
     if (confirm === true) {
       const param = {
@@ -125,26 +127,24 @@ export class PostListComponent implements OnInit {
   }
 
   //post title details
-  titleDetail(postId: any) {
-    this.postSvc.getEachPost(postId).subscribe({
-      next: (res: any) => {
-        this.dialog.open(PostModalComponent, {
-          width: '35%',
-          data: {
-            title: res.data.attributes.title,
-            description: res.data.attributes.description,
-            created_user_id: res.data.attributes.user.data.id,
-            created_at: res.data.attributes.createdAt
-          }
-        });
+  titleDetail(postID: number) {
+    const data = this.orgList.filter((res: PostFilter) => res.id === postID);
+
+    this.dialog.open(PostModalComponent, {
+      width: '35%',
+      data: {
+        title: data[0].attributes.title,
+        description: data[0].attributes.description,
+        created_user_id: data[0].attributes.user.data.id,
+        created_at: data[0].attributes.createdAt
       }
     });
   }
 
   //post search filter
   applyFilter() {
-    let result = this.posts.filter((e: any) => {
-      return e.attributes.title.trim().toLowerCase().includes(this.searchText.trim().toLowerCase()) || e.attributes.description.trim().toLowerCase().includes(this.searchText.trim().toLowerCase());
+    let result = this.orgList.filter((e: PostFilter) => {
+      return e?.attributes.title.trim().toLowerCase().includes(this.searchText.trim().toLowerCase()) || e.attributes.description.trim().toLowerCase().includes(this.searchText.trim().toLowerCase());
     });
     this.dataSource = new MatTableDataSource(result);
     this.dataSource.paginator = this.paginator;

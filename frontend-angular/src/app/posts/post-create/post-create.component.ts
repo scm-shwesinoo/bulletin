@@ -7,6 +7,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SharingDataService } from 'src/app/services/sharing-data.service';
 import { PostService } from 'src/app/services/post.service';
 
+// interface
+import { Post, PostFilter, PostList } from 'src/app/interfaces/interface';
+
 @Component({
   selector: 'app-post-create',
   templateUrl: './post-create.component.html',
@@ -18,8 +21,9 @@ export class PostCreateComponent implements OnInit {
   public postId: number = 0;
   public isChecked: boolean = true;
   public status: boolean = true;
-  public postDetail: any;
-  public postArr: any;
+  public postDetail!: Post;
+  public postArr!: PostList;
+  // orgList: PostFilter[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -41,17 +45,21 @@ export class PostCreateComponent implements OnInit {
   }
 
   getEachPost() {
+    // this.postSvc.getEachPost(this.postId).subscribe({
+    //   next: (res) => {
+
+    //   }
+    // })
     this.postSvc.getEachPost(this.postId).subscribe({
-      next: res => {
-        this.postArr = res;
-        this.postForm.patchValue({
-          title: this.postArr.data.attributes.title,
-          description: this.postArr.data.attributes.description,
-          status: this.postArr.data.attributes.status
-        });
-      },
-      error: err => {
-        console.log(err);
+      next: (res: PostList) => {
+        // this.postArr = res;
+        console.log(res);
+        
+        // this.postForm.patchValue({
+        //   title: res.data.attributes.title,
+        //   description: res.data.attributes.description,
+        //   status: res.data.attributes.status
+        // });
       }
     })
   }
@@ -92,7 +100,7 @@ export class PostCreateComponent implements OnInit {
 
   confirmPost() {
     this.shareDataSvc.setPostData({
-      postId: this.postId,
+      id: this.postId,
       title: this.postForm.value.title,
       description: this.postForm.value.description,
       status: this.status,

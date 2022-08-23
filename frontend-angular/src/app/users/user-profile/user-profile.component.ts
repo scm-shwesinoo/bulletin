@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { User, UserList, UserProfile } from 'src/app/interfaces/interface';
 
 // service
 import { AuthService } from 'src/app/services/auth.service';
@@ -12,8 +13,8 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class UserProfileComponent implements OnInit {
 
-  id: any;
-  userData: any = {};
+  id!: number;
+  userData!: UserProfile;
   email!: string;
   userID!: number;
 
@@ -24,10 +25,10 @@ export class UserProfileComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.id = localStorage.getItem('id');
-    this.authSvc.id.next(this.id);
+    const id = localStorage.getItem('id') || '';
+    this.authSvc.id.next(parseInt(id));
     this.authSvc.id.subscribe((data: number | null) => {
-      this.id = data;
+      this.id = data!;
     });
     this.getEachUser();
   }
@@ -35,6 +36,7 @@ export class UserProfileComponent implements OnInit {
   getEachUser() {
     this.userSvc.getUser(this.id).subscribe({
       next: result => {
+        console.log('Result===',result)
         this.userData = result;
         this.userID = this.userData.employee.id;
       }

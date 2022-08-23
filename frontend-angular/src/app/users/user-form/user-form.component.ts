@@ -11,10 +11,10 @@ import { SharingDataService } from 'src/app/services/sharing-data.service';
 import { UsersService } from 'src/app/services/users.service';
 
 //interface
-import { User } from 'src/app/interfaces/interface';
+import { User, UserList } from 'src/app/interfaces/interface';
 
 interface UserFormGroup extends FormGroup{
-  value: User;
+  value: UserList;
   controls: {
     name: AbstractControl,
     email: AbstractControl,
@@ -42,7 +42,7 @@ export class UserFormComponent implements OnInit {
 
   userForm!: FormGroup;
   userId: number = 0;
-  userDetail: any;
+  userDetail!: UserList;
   profileUrl!: string;
   file!: File;
   chooseImage: boolean = false;
@@ -88,8 +88,11 @@ export class UserFormComponent implements OnInit {
     this.userDetail = data;
     if (this.userDetail) {
       this.chooseImage = true;
-      this.profileUrl = this.userDetail.profile
-      this.file = this.userDetail.file
+      this.profileUrl = this.userDetail.profile;
+      this.file = this.userDetail.file;
+      console.log('File');
+      console.log(this.file);
+      
       this.userForm.setValue({
         name: this.userDetail.name ?? null,
         email: this.userDetail.email ?? null,
@@ -103,22 +106,22 @@ export class UserFormComponent implements OnInit {
     } else {
       if (this.userId) {
         this.userSvc.getEachUser(this.userId).subscribe({
-          next: user => {
-            console.log(user);
+          next: (res: UserList) => {
+            console.log(res);
             this.chooseImage = true;
-            this.email = user.user.email;
-            this.imageUrl = user.profile;
-            this.profileUrl = this.apiUrl + user.profile;
+            this.email = res.user.email;
+            this.imageUrl = res.profile;
+            this.profileUrl = this.apiUrl + res.profile;
             this.userForm.patchValue({
-              id: user.id,
-              name: user.user.username,
+              // id: user.id,
+              name: res.user.username,
+              email: res.user.email,
               password: 'Default123',
               confirmPwd: 'Default123',
-              email: user.user.email,
-              type: user.type == true ? 1 : 0,
-              phone: user.phone,
-              dob: user.dob,
-              address: user.address
+              type: res.type == 1 ? 1 : 0,
+              phone: res.phone,
+              dob: res.dob,
+              address: res.address
             });
           },
           error: err => {
@@ -134,7 +137,7 @@ export class UserFormComponent implements OnInit {
     return this.userForm.controls;
   }
 
-  keyPress(event: any) {
+  keyPress(event: KeyboardEvent) {
     const pattern = /[0-9\+\-\ ]/;
     let inputChar = String.fromCharCode(event.charCode);
     if (event.keyCode != 8 && !pattern.test(inputChar)) {
@@ -162,7 +165,7 @@ export class UserFormComponent implements OnInit {
 
   confirmUser() {
     this.shareDataSvc.setUserData({
-      userId: this.userId,
+      id: this.userId,
       name: this.userForm.value.name,
       email: this.userForm.value.email,
       password: this.userForm.value.password,

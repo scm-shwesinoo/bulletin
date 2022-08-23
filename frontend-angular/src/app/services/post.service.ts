@@ -13,15 +13,15 @@ export class PostService {
 
   apiUrl = environment.apiURL;
 
+   token = localStorage.getItem('token');
+   headers = new HttpHeaders()
+    .set('content-type', 'application/json')
+    .set('Authorization', `Bearer ${this.token}`);
+
   constructor(private http: HttpClient) { }
 
   //get all post with relation data and status true
   getPost(): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders()
-      .set('content-type', 'application/json')
-      .set('Authorization', `Bearer ${token}`);
-
     const query = qs.stringify({
       populate: '*',
       sort: ['id:desc'],
@@ -33,16 +33,11 @@ export class PostService {
     });
 
     const url = this.apiUrl + `/posts?${query}`;
-    return this.http.get(url, { 'headers': headers });
+    return this.http.get(url, { 'headers': this.headers });
   }
 
   //get post related login user and role 
   getPostDetail(postId: any): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders()
-      .set('content-type', 'application/json')
-      .set('Authorization', `Bearer ${token}`);
-
     const query = qs.stringify({
       populate: '*',
       filters: {
@@ -58,16 +53,11 @@ export class PostService {
     });
 
     const url = this.apiUrl + `/posts?${query}`;
-    return this.http.get(url, { 'headers': headers });
+    return this.http.get(url, { 'headers': this.headers });
   }
 
   //get post with id
-  getEachPost(postId: any) {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders()
-      .set('content-type', 'application/json')
-      .set('Authorization', `Bearer ${token}`);
-
+  getEachPost(postId: number) {
     const query = qs.stringify({
       populate: '*',
     }, {
@@ -75,51 +65,39 @@ export class PostService {
     });
 
     const url = this.apiUrl + `/posts/${postId}?${query}`;
-    return this.http.get(url, { 'headers': headers });
+    return this.http.get(url, { 'headers': this.headers });
   }
 
   //create post data
   createPost(data: any): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders()
-      .set('content-type', 'application/json')
-      .set('Authorization', `Bearer ${token}`);
+
 
     const url = this.apiUrl + '/posts';
-    return this.http.post(url, data, { 'headers': headers });
+    return this.http.post(url, data, { 'headers': this.headers });
   }
 
   //update post data
   updatePost(data: any, postId: any): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders()
-      .set('content-type', 'application/json')
-      .set('Authorization', `Bearer ${token}`);
+
 
     const url = this.apiUrl + '/posts/' + postId;
-    return this.http.put(url, data, { 'headers': headers });
+    return this.http.put(url, data, { 'headers': this.headers });
   }
 
   //delete post data
   deletePost(postId: any, data: any): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders()
-      .set('content-type', 'application/json')
-      .set('Authorization', `Bearer ${token}`);
+
 
     const url = this.apiUrl + '/posts/' + postId;
-    return this.http.put(url, data, { 'headers': headers });
+    return this.http.put(url, data, { 'headers': this.headers });
   }
 
   //create csv data
   createCSV(data: any): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders()
-      .set('content-type', 'application/json')
-      .set('Authorization', `Bearer ${token}`);
+
 
     const url = this.apiUrl + '/posts/excel';
-    return this.http.post(url, data, { 'headers': headers });
+    return this.http.post(url, data, { 'headers': this.headers });
   }
 
 }

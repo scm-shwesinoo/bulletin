@@ -10,6 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 
 //pages
 import { PlainModalComponent } from 'src/app/components/plain-modal/plain-modal.component';
+import { Post } from 'src/app/interfaces/interface';
 
 @Component({
   selector: 'app-post-confirm',
@@ -18,12 +19,12 @@ import { PlainModalComponent } from 'src/app/components/plain-modal/plain-modal.
 })
 export class PostConfirmComponent implements OnInit {
 
-  public postData: any;
-  public postList: any;
-  public postListDetail: any;
-  public postId: any;
+  public postData!: Post;
+  public postList!: Post;
+  public postListDetail!: Post;
+  public postId: number = 0;
   public isChecked: boolean = true;
-  public loginId: any;
+  public loginId!: number;
   public type: string = '';
 
   constructor(
@@ -38,7 +39,7 @@ export class PostConfirmComponent implements OnInit {
     this.postData = this.shareDataSvc.getPostData();
     this.showAlert();
     this.type = this.postData.type;
-    this.postId = this.postData?.postId;
+    this.postId = this.postData?.id;
     if (this.postData?.status === true) {
       this.isChecked = true;
     } else {
@@ -100,7 +101,7 @@ export class PostConfirmComponent implements OnInit {
 
   createPost() {
     this.authSvc.id.subscribe((data: number | null) => {
-      this.loginId = data;
+      this.loginId = data!;
     });
     const data = {
       "data": {
@@ -132,7 +133,7 @@ export class PostConfirmComponent implements OnInit {
 
   updatePost() {
     this.authSvc.id.subscribe((data: number | null) => {
-      this.loginId = data;
+      this.loginId = data!;
     });
     const data = {
       "data": {

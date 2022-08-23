@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { PlainModalComponent } from 'src/app/components/plain-modal/plain-modal.component';
+import {  RoleList, UserList } from 'src/app/interfaces/interface';
 
 // Services
 import { AuthService } from 'src/app/services/auth.service';
@@ -16,15 +17,15 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class UserConfirmComponent implements OnInit {
 
-  userData: any;
-  userList: any = [];
-  userListDetail: any;
+  userData!: UserList;
+  userList: UserList[] = [];
+  userListDetail!: UserList;
   profileUrl!: string;
   createdUser!: string;
   roleID!: number;
   userRole: any = [];
   loginRole!: string;
-  loginID!: any;
+  loginID!: number;
   userID!: number;
   formType!: string;
 
@@ -43,10 +44,10 @@ export class UserConfirmComponent implements OnInit {
     this.authSvc.name.subscribe((data: string | null) => {
       this.createdUser = data || '';
     });
-    this.loginID = localStorage.getItem('id');
-    this.authSvc.id.next(this.loginID);
+    const id = localStorage.getItem('id') || '';
+    this.authSvc.id.next(parseInt(id));
     this.authSvc.id.subscribe((data: number | null) => {
-      this.loginID = data;
+      this.loginID = data!;
     });
     this.loginRole = localStorage.getItem('role') || '';
     this.authSvc.role.next(this.loginRole);
@@ -55,8 +56,11 @@ export class UserConfirmComponent implements OnInit {
     });
 
     this.userData = this.shareDataSvc.getUserData();
+    console.log('Old profile');
+    console.log(this.userData.oldProfile);
+
     this.showAlert();
-    this.userID = this.userData.userId;
+    this.userID = this.userData.id;
     this.formType = this.userData.formType;
     this.getUserList();
     this.getRole();
@@ -74,12 +78,17 @@ export class UserConfirmComponent implements OnInit {
   getRole() {
     this.userSvc.getRole().subscribe({
       next: result => {
-        this.userRole.push(result);
+        console.log('Role');
+        console.log(result);
+
+
+        this.userRole = result;
         if (this.userData.type == 0) {
-          let data = this.userRole.map((result: any) => result.roles.filter((item: any) => item.name == 'Authenticated'));
+          // if (this.userData.type == false) {
+          let data = this.userRole.map((result: RoleList) => result.roles.filter((item: { name: string }) => item.name == 'Authenticated'));
           this.roleID = data[0][0].id;
         } else {
-          let data = this.userRole.map((result: any) => result.roles.filter((item: any) => item.name == 'User'));
+          let data = this.userRole.map((result: RoleList) => result.roles.filter((item: { name: string }) => item.name == 'User'));
           this.roleID = data[0][0].id;
         }
       },
@@ -125,7 +134,7 @@ export class UserConfirmComponent implements OnInit {
   }
 
   createUser() {
-    const duplicateUser = this.userList.filter((item: any) => item.user.email === this.userData.email);
+    const duplicateUser = this.userList.filter((item: UserList) => item.user.email === this.userData.email);
     if (duplicateUser.length > 0) {
       this.dialog.open(PlainModalComponent, {
         data: {
@@ -136,7 +145,7 @@ export class UserConfirmComponent implements OnInit {
       });
     } else {
       this.userSvc.uploadProfile(this.userData.file).subscribe({
-        next: (res: any) => {
+        next: res => {
           this.profileUrl = res[0].url;
           const data = {
             "data": {
@@ -169,7 +178,7 @@ export class UserConfirmComponent implements OnInit {
   }
 
   updateUser() {
-    if (this.userData.oldProfile !== null) {
+    if (this.userData.oldProfile !== '') {
       const data = {
         "data": {
           "name": this.userData.name,
@@ -185,9 +194,13 @@ export class UserConfirmComponent implements OnInit {
       };
       this.update(data);
     } else {
+      console.log('Profile Url');
       this.userSvc.uploadProfile(this.userData.file).subscribe({
-        next: (res: any) => {
+        next: res => {
           this.profileUrl = res[0].url;
+          console.log('result');
+          console.log(res);
+          console.log(res['url']);
           const data = {
             "data": {
               "name": this.userData.name,
@@ -207,8 +220,8 @@ export class UserConfirmComponent implements OnInit {
     }
   }
 
-  update(data: any) {
-    const duplicateUser = this.userList.filter((item: any) => item.user.email === this.userData.email && item.id != this.userID);
+  update(data: {}) {
+    const duplicateUser = this.userList.filter((item: UserList) => item.user.email === this.userData.email && item.id != this.userID);
     if (duplicateUser.length > 0) {
       this.dialog.open(PlainModalComponent, {
         data: {

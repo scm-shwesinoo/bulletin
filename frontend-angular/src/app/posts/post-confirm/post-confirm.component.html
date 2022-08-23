@@ -6,10 +6,10 @@
       <td>{{postData?.title}}</td>
     </tr>
     <tr>
-      <td class="sub-ttl">Description{{postData.postId}}</td>
+      <td class="sub-ttl">Description{{postData.id}}</td>
       <td>{{postData?.description}}</td>
     </tr>
-    <tr *ngIf="postData.postId">
+    <tr *ngIf="postData.id">
       <td class="sub-ttl">Status</td>
       <td>
         {{isChecked}}

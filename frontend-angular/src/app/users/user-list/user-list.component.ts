@@ -13,7 +13,7 @@ import { UsersService } from 'src/app/services/users.service';
 import { ListModalComponent } from 'src/app/components/list-modal/list-modal.component';
 
 // interface
-import { User } from 'src/app/interfaces/interface';
+import { User, UserList } from 'src/app/interfaces/interface';
 
 @Component({
   selector: 'app-user-list',
@@ -23,9 +23,9 @@ import { User } from 'src/app/interfaces/interface';
 export class UserListComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'email', 'profile', 'created_user_id', 'phone', 'dob', 'address', 'created_at', 'updated_at', 'action'];
-  dataSource!: MatTableDataSource<User>;
+  dataSource!: MatTableDataSource<UserList>;
   apiUrl = environment.imageURL;
-  orgList: User[] = [];
+  orgList: UserList[] = [];
   nameFilter!: string;
   emailFilter!: string;
   fromDate!: Date;
@@ -60,18 +60,18 @@ export class UserListComponent implements OnInit {
   }
 
   getEachUserData(userID: number) {
-    const user = this.orgList.filter((res: User) => res.id === userID); //interface use
-    console.log('Use ---', user);
+    const data = this.orgList.filter((res: UserList) => res.id === userID); //interface use
+    console.log('Use ---', data);
     
     this.dialog.open(ListModalComponent, {
       width: '600px',
       data: {
-        name: user[0].user.username,
-        email: user[0].user.email,
-        phone: user[0].phone,
-        dob: user[0].dob,
-        address: user[0].address,
-        created_date: user[0].createdAt
+        name: data[0].user.username,
+        email: data[0].user.email,
+        phone: data[0].phone,
+        dob: data[0].dob,
+        address: data[0].address,
+        created_date: data[0].createdAt
       }
     });
   }
@@ -92,32 +92,29 @@ export class UserListComponent implements OnInit {
   }
 
   onSearch() {
+    console.log('OrgList')
     console.log(this.orgList);
     let result = this.orgList;
     if (this.nameFilter) {
-      result = result.filter((e: User) => {
-        console.log('===e');
-        console.log(e);
+      result = result.filter((e: UserList) => {
         return e.user.username.trim().toLowerCase().includes(this.nameFilter);
       });
     }
 
     if (this.emailFilter) {
-      result = result.filter((e: User) => {
-        console.log('===e');
-        console.log(e);
+      result = result.filter((e: UserList) => {
         return e.user.email.includes(this.emailFilter);
       });
     }
 
     if (this.fromDate && this.toDate) {
       this.toDate.setTime(this.toDate.getTime() + ((23 * 60 + 59) * 60 + 59) * 1000);
-      result = result.filter((e: User) => {
+      result = result.filter((e: UserList) => {
         return new Date(e.createdAt) >= this.fromDate
           && new Date(e.createdAt) <= this.toDate
       });
     }
-    this.dataSource = new MatTableDataSource(result);
+    this.dataSource = new MatTableDataSource<UserList>(result);
     this.dataSource.paginator = this.paginator;
   }
 

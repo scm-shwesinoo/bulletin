@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { User, UserList, UserProfile } from 'src/app/interfaces/interface';
+import { UserProfile } from 'src/app/interfaces/interface';
 
 // service
 import { AuthService } from 'src/app/services/auth.service';
@@ -36,7 +36,6 @@ export class UserProfileComponent implements OnInit {
   getEachUser() {
     this.userSvc.getUser(this.id).subscribe({
       next: result => {
-        console.log('Result===',result)
         this.userData = result;
         this.userID = this.userData.employee.id;
       }

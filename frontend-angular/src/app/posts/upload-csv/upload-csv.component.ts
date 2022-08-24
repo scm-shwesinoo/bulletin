@@ -63,7 +63,6 @@ export class UploadCsvComponent implements OnInit {
             "title": result.title,
             "description": result.description,
             "status": true,
-            // "user": [parseInt(this.loginId)]
             "user": [this.loginId]
           };
           this.data.push(res);

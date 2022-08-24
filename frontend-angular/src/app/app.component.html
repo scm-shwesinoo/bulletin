@@ -1,16 +1,15 @@
 <mat-toolbar color="primary" *ngIf="showNavBar">
   <div class="nav">
     <span class="title" [routerLink]="['/post-list']">SCM Bulletin Board</span>
-    <!-- <a mat-flat-button color="primary" *ngIf="user?.id && user?.type === 0" [routerLink]="['/user-list']" routerLinkActive="active">Users</a>
-    <a mat-flat-button color="primary" *ngIf="user?.id && user?.type === 1" [routerLink]="['/user-profile']" routerLinkActive="active">User</a> -->
-    <a mat-flat-button color="primary" *ngIf="token && role === 'authenticated'" [routerLink]="['/user-list']" routerLinkActive="active">Users</a>
-    <a mat-flat-button color="primary" *ngIf="token && role === 'user'" [routerLink]="['/user-profile']" routerLinkActive="active">User</a>
+    <a mat-flat-button color="primary" *ngIf="token && role === 'authenticated'" [routerLink]="['/user-list']"
+      routerLinkActive="active">Users</a>
+    <a mat-flat-button color="primary" *ngIf="token && role === 'user'" [routerLink]="['/user-profile']"
+      routerLinkActive="active">User</a>
     <a mat-flat-button color="primary" [routerLink]="['/post-list']" routerLinkActive="active">Posts</a>
     <span class="rt-nav">
       <a mat-button *ngIf="token" class="profile" [routerLink]="['/user-profile']">
         <mat-icon>person</mat-icon>
         {{name}}
-        <!-- {{user.name}} -->
       </a>
       <a mat-flat-button color="warn" (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>Logout

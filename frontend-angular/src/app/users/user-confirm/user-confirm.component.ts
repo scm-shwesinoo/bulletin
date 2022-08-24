@@ -3,12 +3,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { PlainModalComponent } from 'src/app/components/plain-modal/plain-modal.component';
-import {  RoleList, UserList } from 'src/app/interfaces/interface';
 
 // Services
 import { AuthService } from 'src/app/services/auth.service';
 import { SharingDataService } from 'src/app/services/sharing-data.service';
 import { UsersService } from 'src/app/services/users.service';
+
+// interface
+import { RoleList, UserList } from 'src/app/interfaces/interface';
 
 @Component({
   selector: 'app-user-confirm',
@@ -56,9 +58,6 @@ export class UserConfirmComponent implements OnInit {
     });
 
     this.userData = this.shareDataSvc.getUserData();
-    console.log('Old profile');
-    console.log(this.userData.oldProfile);
-
     this.showAlert();
     this.userID = this.userData.id;
     this.formType = this.userData.formType;
@@ -78,10 +77,6 @@ export class UserConfirmComponent implements OnInit {
   getRole() {
     this.userSvc.getRole().subscribe({
       next: result => {
-        console.log('Role');
-        console.log(result);
-
-
         this.userRole = result;
         if (this.userData.type == 0) {
           // if (this.userData.type == false) {
@@ -194,13 +189,9 @@ export class UserConfirmComponent implements OnInit {
       };
       this.update(data);
     } else {
-      console.log('Profile Url');
       this.userSvc.uploadProfile(this.userData.file).subscribe({
         next: res => {
           this.profileUrl = res[0].url;
-          console.log('result');
-          console.log(res);
-          console.log(res['url']);
           const data = {
             "data": {
               "name": this.userData.name,

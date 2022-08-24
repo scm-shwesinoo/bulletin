@@ -11,9 +11,9 @@ import { SharingDataService } from 'src/app/services/sharing-data.service';
 import { UsersService } from 'src/app/services/users.service';
 
 //interface
-import { User, UserList } from 'src/app/interfaces/interface';
+import { UserList } from 'src/app/interfaces/interface';
 
-interface UserFormGroup extends FormGroup{
+interface UserFormGroup extends FormGroup {
   value: UserList;
   controls: {
     name: AbstractControl,
@@ -90,9 +90,6 @@ export class UserFormComponent implements OnInit {
       this.chooseImage = true;
       this.profileUrl = this.userDetail.profile;
       this.file = this.userDetail.file;
-      console.log('File');
-      console.log(this.file);
-      
       this.userForm.setValue({
         name: this.userDetail.name ?? null,
         email: this.userDetail.email ?? null,
@@ -107,13 +104,11 @@ export class UserFormComponent implements OnInit {
       if (this.userId) {
         this.userSvc.getEachUser(this.userId).subscribe({
           next: (res: UserList) => {
-            console.log(res);
             this.chooseImage = true;
             this.email = res.user.email;
             this.imageUrl = res.profile;
             this.profileUrl = this.apiUrl + res.profile;
             this.userForm.patchValue({
-              // id: user.id,
               name: res.user.username,
               email: res.user.email,
               password: 'Default123',
@@ -152,13 +147,9 @@ export class UserFormComponent implements OnInit {
       var reader = new FileReader();
       reader.readAsDataURL(e.target.files[0]);
       this.file = e.target.files[0];
-      console.log('file===');
-      console.log(this.file);
       reader.onload = (event: any) => {
         this.imageUrl = '';
         this.profileUrl = event.target.result;
-        console.log('profileUrl===');
-        console.log(this.profileUrl);
       }
     }
   }

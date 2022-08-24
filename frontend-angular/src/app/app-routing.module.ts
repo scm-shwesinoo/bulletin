@@ -11,11 +11,11 @@ import { PasswordChangeComponent } from './users/password-change/password-change
 import { UserUpdateComponent } from './users/user-update/user-update.component';
 import { UserCreateComponent } from './users/user-create/user-create.component';
 import { UserConfirmComponent } from './users/user-confirm/user-confirm.component';
+import { PostEditComponent } from './posts/post-edit/post-edit.component';
+import { PostAddComponent } from './posts/post-add/post-add.component';
 
 //guard
 import { AuthGuard } from './guards/auth.guard';
-import { PostEditComponent } from './posts/post-edit/post-edit.component';
-import { PostAddComponent } from './posts/post-add/post-add.component';
 
 const routes: Routes = [
   { path: '', component: UserLoginComponent },

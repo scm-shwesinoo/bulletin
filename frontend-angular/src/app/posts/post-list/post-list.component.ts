@@ -23,7 +23,6 @@ export class PostListComponent implements OnInit {
 
   public role!: string;
   public postId!: number;
-  // public posts: PostList[] = [];
   public searchText: string = '';
   orgList: PostFilter[] = [];
 

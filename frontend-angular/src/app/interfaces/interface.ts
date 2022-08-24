@@ -18,7 +18,7 @@ export interface UserList {
     id: number
     name: string,
     email: string,
-    password: string,
+    password: any,
     confirmPwd: string,
     type: number,
     phone: number,
@@ -56,16 +56,4 @@ export interface PostFilter {
 
 export interface PostList {
     data: PostFilter
-    // data: {
-        // id: number,
-        // attributes: {
-        //     id: number,
-        //     type: string,
-        //     title: string,
-        //     description: string,
-        //     status: boolean,
-        //     createdAt: string,
-        //     user: User
-        // }
-    // }
 }

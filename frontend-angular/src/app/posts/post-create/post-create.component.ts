@@ -48,7 +48,7 @@ export class PostCreateComponent implements OnInit {
       next: (res: any) => {
         this.postArr = res;
         console.log(res);
-          this.postForm.patchValue({
+        this.postForm.patchValue({
           title: this.postArr.data.attributes.title,
           description: this.postArr.data.attributes.description,
           status: this.postArr.data.attributes.status

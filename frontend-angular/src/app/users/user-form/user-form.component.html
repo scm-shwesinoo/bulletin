@@ -55,15 +55,8 @@
         <mat-label>Address</mat-label>
         <textarea matInput formControlName="address"></textarea>
     </mat-form-field>
-    <!-- 
-    <div>
-      <h4>Profile</h4>
-    <button type="button" mat-stroked-button (click)="fileInput.click()">Upload Image</button>
-    <input hidden #fileInput type="file" id="file" (change)="onSelectFile($event)"><br><br>
-    <img class="image-upload" src={{profileUrl}} alt="Profile Image" width="100" height="100" style="border: radius 15px;">
-    </div> -->
 
-    <div>
+    <div style="margin-bottom: 10px;">
         <h4>Profile</h4>
         <button type="button" mat-stroked-button (click)="fileInput.click()">Upload Image</button>
         <input hidden #fileInput type="file" id="file" (change)="onSelectFile($event)"><br><br>

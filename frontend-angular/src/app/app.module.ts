@@ -26,13 +26,13 @@ import { UserCreateComponent } from './users/user-create/user-create.component';
 import { UserConfirmComponent } from './users/user-confirm/user-confirm.component';
 import { UserUpdateComponent } from './users/user-update/user-update.component';
 import { UserFormComponent } from './users/user-form/user-form.component';
+import { PostModalComponent } from './components/post-modal/post-modal.component';
 
 //pipes
 import { PasswordPipe } from './pipes/password.pipe';
 
 //services
 import { PostService } from './services/post.service';
-import { PostModalComponent } from './components/post-modal/post-modal.component';
 
 @NgModule({
   declarations: [

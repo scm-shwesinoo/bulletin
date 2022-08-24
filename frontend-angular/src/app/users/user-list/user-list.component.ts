@@ -13,7 +13,7 @@ import { UsersService } from 'src/app/services/users.service';
 import { ListModalComponent } from 'src/app/components/list-modal/list-modal.component';
 
 // interface
-import { User, UserList } from 'src/app/interfaces/interface';
+import { UserList } from 'src/app/interfaces/interface';
 
 @Component({
   selector: 'app-user-list',
@@ -30,7 +30,6 @@ export class UserListComponent implements OnInit {
   emailFilter!: string;
   fromDate!: Date;
   toDate!: Date;
-  // loginUser!: string;
 
   constructor(
     private router: Router,
@@ -42,7 +41,6 @@ export class UserListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   ngOnInit(): void {
     this.getAllUserData();
-    // this.loginUser = localStorage.getItem('username') || '';
   }
 
   getAllUserData() {
@@ -60,9 +58,7 @@ export class UserListComponent implements OnInit {
   }
 
   getEachUserData(userID: number) {
-    const data = this.orgList.filter((res: UserList) => res.id === userID); //interface use
-    console.log('Use ---', data);
-    
+    const data = this.orgList.filter((res: UserList) => res.id === userID);
     this.dialog.open(ListModalComponent, {
       width: '600px',
       data: {
@@ -92,8 +88,6 @@ export class UserListComponent implements OnInit {
   }
 
   onSearch() {
-    console.log('OrgList')
-    console.log(this.orgList);
     let result = this.orgList;
     if (this.nameFilter) {
       result = result.filter((e: UserList) => {

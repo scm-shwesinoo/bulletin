@@ -23,7 +23,6 @@ export class PostCreateComponent implements OnInit {
   public status: boolean = true;
   public postDetail!: Post;
   public postArr!: PostList;
-  // orgList: PostFilter[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -45,21 +44,15 @@ export class PostCreateComponent implements OnInit {
   }
 
   getEachPost() {
-    // this.postSvc.getEachPost(this.postId).subscribe({
-    //   next: (res) => {
-
-    //   }
-    // })
     this.postSvc.getEachPost(this.postId).subscribe({
-      next: (res: PostList) => {
-        // this.postArr = res;
+      next: (res: any) => {
+        this.postArr = res;
         console.log(res);
-        
-        // this.postForm.patchValue({
-        //   title: res.data.attributes.title,
-        //   description: res.data.attributes.description,
-        //   status: res.data.attributes.status
-        // });
+          this.postForm.patchValue({
+          title: this.postArr.data.attributes.title,
+          description: this.postArr.data.attributes.description,
+          status: this.postArr.data.attributes.status
+        });
       }
     })
   }

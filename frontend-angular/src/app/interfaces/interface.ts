@@ -55,19 +55,17 @@ export interface PostFilter {
 }
 
 export interface PostList {
-    // data: PostFilter
-    data: {
-        attributes: Post
-    }
+    data: PostFilter
     // data: {
-    //     attributes: {
-    //         id: number,
-    //         type: string,
-    //         title: string,
-    //         description: string,
-    //         status: boolean,
-    //         createdAt: string,
-    //     }
+        // id: number,
+        // attributes: {
+        //     id: number,
+        //     type: string,
+        //     title: string,
+        //     description: string,
+        //     status: boolean,
+        //     createdAt: string,
+        //     user: User
+        // }
     // }
-
 }

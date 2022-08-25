@@ -34,3 +34,6 @@
    }
 
  }
+ :host ::ng-deep .ck-editor__editable_inline {
+  min-height: 300px;
+}

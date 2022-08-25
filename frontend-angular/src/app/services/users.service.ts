@@ -9,6 +9,10 @@ import * as qs from 'qs';
   providedIn: 'root'
 })
 export class UsersService {
+  static uploadProfile //     .set('content-type', 'application/json')
+      (e: ProgressEvent<FileReader>) {
+          throw new Error("Method not implemented.");
+  }
 
   apiUrl = environment.apiURL;
 

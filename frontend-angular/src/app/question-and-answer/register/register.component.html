@@ -1,0 +1,48 @@
+<!-- <ckeditor [editor]="editor" [(ngModel)]="name" data="<p>Hello, world!</p>"></ckeditor> -->
+<div class="container">
+    <form [formGroup]="qaForm" (ngSubmit)="onSubmit()" class="qa-form">
+
+        <mat-form-field class="form-group" appearance="outline">
+            <mat-label>Title</mat-label>
+            <input matInput type="text" formControlName="title" placeholder="Type Title">
+            <mat-error *ngIf="myForm['title'].hasError('required')">Title is required</mat-error>
+        </mat-form-field>
+
+        <div class="cke-blk">
+            <ckeditor [editor]="Editor" (ready)="onReady($event)" formControlName="question"></ckeditor>
+            <!-- <ckeditor [config]="{ toolbar: [ 'heading', '|', 'bold', 'italic', 'imageUpload' ] }" class="ckeditor"  placeholder="Type the content here!" [editor]="Editor" formControlName="question"></ckeditor> -->
+            <!-- <ckeditor [config]="{ toolbar: [ 'heading', '|', 'bold', 'italic', 'imageUpload' ] }" class="ckeditor" [editor]="Editor" formControlName="question"></ckeditor> -->
+        </div>
+
+        <button mat-flat-button type="submit" [disabled]="!qaForm.valid" color="primary" class="btn-submit">
+            <mat-icon>add</mat-icon>
+            Create Question
+        </button>
+        <button mat-stroked-button (click)="clearData()"  color="primary" class="btn-submit">
+            Cancel
+        </button>
+
+    </form>
+
+    <!-- <div class="cke-blk">
+        <ckeditor [editor]="Editor" [(ngModel)]="name"></ckeditor>
+    </div> -->
+    <div class="pre-blk" [innerHTML]="qaForm.value.question">
+
+    </div>
+</div>
+<div>
+    {{name}}
+</div>
+<div *ngFor="let d of data">
+    <!-- <div style="border: 1px solid #000;" [innerHTML]="d.attributes.question">
+
+    </div> -->
+    <div>
+        {{d.attributes.question}}
+    </div>
+</div>
+<div *ngFor="let d of data">
+    <!-- <h2>{{d.attributes.title}}</h2> -->
+    <div [innerHTML]="d.attributes.question"></div>
+</div>

@@ -1,0 +1,22 @@
+{
+  "kind": "collectionType",
+  "collectionName": "question_and_answers",
+  "info": {
+    "singularName": "question-and-answer",
+    "pluralName": "question-and-answers",
+    "displayName": "QuestionAndAnswer",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "question": {
+      "type": "richtext"
+    },
+    "title": {
+      "type": "string"
+    }
+  }
+}

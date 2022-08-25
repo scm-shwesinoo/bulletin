@@ -7,6 +7,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { CdkTableExporterModule } from 'cdk-table-exporter';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 //pages
 import { AppComponent } from './app.component';
@@ -27,6 +28,7 @@ import { UserConfirmComponent } from './users/user-confirm/user-confirm.componen
 import { UserUpdateComponent } from './users/user-update/user-update.component';
 import { UserFormComponent } from './users/user-form/user-form.component';
 import { PostModalComponent } from './components/post-modal/post-modal.component';
+import { RegisterComponent } from './question-and-answer/register/register.component';
 
 //pipes
 import { PasswordPipe } from './pipes/password.pipe';
@@ -55,6 +57,7 @@ import { PostService } from './services/post.service';
     UserFormComponent,
     PasswordPipe,
     PostModalComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,7 +68,8 @@ import { PostService } from './services/post.service';
     ReactiveFormsModule,
     FormsModule,
     MatTableExporterModule,
-    CdkTableExporterModule
+    CdkTableExporterModule,
+    CKEditorModule
   ],
   providers: [PostService],
   bootstrap: [AppComponent]

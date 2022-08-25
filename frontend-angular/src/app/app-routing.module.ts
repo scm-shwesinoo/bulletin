@@ -13,6 +13,7 @@ import { UserCreateComponent } from './users/user-create/user-create.component';
 import { UserConfirmComponent } from './users/user-confirm/user-confirm.component';
 import { PostEditComponent } from './posts/post-edit/post-edit.component';
 import { PostAddComponent } from './posts/post-add/post-add.component';
+import { RegisterComponent } from './question-and-answer/register/register.component';
 
 //guard
 import { AuthGuard } from './guards/auth.guard';
@@ -29,7 +30,8 @@ const routes: Routes = [
   { path: 'user/:id', component: UserUpdateComponent, canActivate: [AuthGuard] },
   { path: 'user-confirm', component: UserConfirmComponent, canActivate: [AuthGuard] },
   { path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard] },
-  { path: 'password-change', component: PasswordChangeComponent, canActivate: [AuthGuard] }
+  { path: 'password-change', component: PasswordChangeComponent, canActivate: [AuthGuard] },
+  { path: 'editor', component: RegisterComponent }
 ];
 
 @NgModule({

@@ -9,7 +9,7 @@
         </mat-form-field>
 
         <div class="cke-blk">
-            <ckeditor [editor]="Editor" (ready)="onReady($event)" formControlName="question"></ckeditor>
+            <ckeditor [editor]="Editor" [config]="config" (ready)="onReady($event)" formControlName="question"></ckeditor>
             <!-- <ckeditor [config]="{ toolbar: [ 'heading', '|', 'bold', 'italic', 'imageUpload' ] }" class="ckeditor"  placeholder="Type the content here!" [editor]="Editor" formControlName="question"></ckeditor> -->
             <!-- <ckeditor [config]="{ toolbar: [ 'heading', '|', 'bold', 'italic', 'imageUpload' ] }" class="ckeditor" [editor]="Editor" formControlName="question"></ckeditor> -->
         </div>
@@ -32,15 +32,16 @@
     </div>
 </div>
 <div>
-    {{name}}
+    <!-- {{name}} -->
+    {{qaForm.value.question}}
 </div>
 <div *ngFor="let d of data">
     <!-- <div style="border: 1px solid #000;" [innerHTML]="d.attributes.question">
 
     </div> -->
-    <div>
+    <!-- <div>
         {{d.attributes.question}}
-    </div>
+    </div> -->
 </div>
 <div *ngFor="let d of data">
     <!-- <h2>{{d.attributes.title}}</h2> -->

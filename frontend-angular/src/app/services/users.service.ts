@@ -9,10 +9,10 @@ import * as qs from 'qs';
   providedIn: 'root'
 })
 export class UsersService {
-  static uploadProfile //     .set('content-type', 'application/json')
-      (e: ProgressEvent<FileReader>) {
-          throw new Error("Method not implemented.");
-  }
+  // static uploadProfile //     .set('content-type', 'application/json')
+  //     (e: ProgressEvent<FileReader>) {
+  //         throw new Error("Method not implemented.");
+  // }
 
   apiUrl = environment.apiURL;
 
@@ -74,6 +74,14 @@ export class UsersService {
     });
     const url = this.apiUrl + `/users/${userID}/?${query}`;
     return this.http.get(url, { 'headers': this.headers });
+  }
+
+  async upload(file: any): Promise<Observable<any>> {
+    const fileData = new FormData();
+    fileData.append('files', file);
+
+    const url = this.apiUrl + '/upload';
+    return this.http.post(url, fileData);
   }
   // no need
   // getUser(): Observable<any> {

@@ -8,6 +8,7 @@ export class SharingDataService {
   postData: any;
   userData: any;
   userEmail: any;
+  uploadData: any = [];
   constructor() { }
 
   setPostData(data: any) {
@@ -32,6 +33,14 @@ export class SharingDataService {
 
   getUserEmail() {
     return this.userEmail;
+  }
+
+  setUploadData(data: any){
+    this.uploadData.push(data);
+  }
+
+  getUploadData(){
+    return this.uploadData;
   }
 
 }
